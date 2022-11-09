@@ -6,7 +6,7 @@ const CounterScreen = () => {
         
     }
     const [state,dispatch]=useReducer(reducer,{count:0});
-    return <Text style={styles.text}>Hello i am a counter</Text>;
+    return <Text style={styles.text}>Hello i am a counterz</Text>;
 };
 
 const styles = StyleSheet.create({

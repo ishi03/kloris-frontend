@@ -1,13 +1,10 @@
 import React, { useReducer } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
 
-const TaskCard = ({task}) => {
+const InfoCard = () => {
     return <View style={styles.cardView}>
-        <Image style={styles.image} source={task.imgSource}/>
         <View style={styles.textView}>
-        <Text style={styles.nameText}>{task.name}</Text>
-        <Text style={styles.taskText}>{task.task}</Text>
-        <Text style={styles.infoText}>{task.otherInfo}</Text>
+        <Text style={styles.nameText}>tips</Text>
         </View>
     </View>
 };
@@ -37,13 +34,6 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 10,
   },
-  image: {
-    width: 80,
-    height: 80,
-    borderRadius: 80/2,
-    overflow: "hidden",
-    borderWidth: 3,
-  },
 });
 
-export default TaskCard;
+export default InfoCard;

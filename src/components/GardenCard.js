@@ -1,26 +1,29 @@
 import React, { useReducer } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
 
-const TaskCard = ({task}) => {
+const GardenCard = ({plant}) => {
     return <View style={styles.cardView}>
-        <Image style={styles.image} source={task.imgSource}/>
+        <Image style={styles.image} source={plant.imgSource}/>
+
         <View style={styles.textView}>
-        <Text style={styles.nameText}>{task.name}</Text>
-        <Text style={styles.taskText}>{task.task}</Text>
-        <Text style={styles.infoText}>{task.otherInfo}</Text>
+        <Text style={styles.plantText}>{plant.name}</Text>
+        <Text style={styles.infoText}>{plant.otherInfo}</Text>
+
         </View>
-    </View>
+        </View>
 };
 
 const styles = StyleSheet.create({
+    
   cardView:{
     flexDirection:"row",
-    backgroundColor:"#D6E8C8",
-    marginTop:"5%",
+    // backgroundColor:"#D6E8C8",
+    marginTop:"8%",
     // marginLeft:"5%",
     // marginRight:"5%",
     borderRadius:15,
-    padding:"5%",
+    paddingLeft:"5%",
+    paddingBottom:"2%",
   },
   textView:{
     marginLeft:"10%"
@@ -28,14 +31,15 @@ const styles = StyleSheet.create({
   nameText: {
     fontSize: 15,
   },
-  taskText: {
+  plantText: {
     fontSize: 18,
     marginBottom: "8%",
     marginTop:"2%",
     fontWeight: "bold"
   },
   infoText: {
-    fontSize: 10,
+    fontSize: 15,
+    marginTop: "5%"
   },
   image: {
     width: 80,
@@ -46,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskCard;
+export default GardenCard;
