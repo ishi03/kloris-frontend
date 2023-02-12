@@ -35,12 +35,12 @@ const styles = StyleSheet.create({
   nameText:{
     fontSize:28,
     fontWeight: "bold",
-    fontFamily: 'Alatsi-Regular'
+    // fontFamily: 'Alatsi-Regular'
 },
   headingText:{
     fontSize:18,
     fontWeight: "bold",
-    fontFamily: "Alatsi-Regular"
+    // fontFamily: "Alatsi-Regular"
   },
   image: {
     width:300,

@@ -21,13 +21,13 @@ const tasks=[
         "id":4,
         "name":"Aloe Vera",
         "imgSource":require("../assets/aloevera.jpg"),
-        "task":"Watering Time"
+        "task":"Dusting Time"
     },
     {
         "id":5,
         "name":"Tulsi",
         "imgSource":require("../assets/tulsi.jpg"),
-        "task":"Watering Time"
+        "task":"Trimming Time"
     }
 ]
 

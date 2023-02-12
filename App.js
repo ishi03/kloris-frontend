@@ -6,7 +6,8 @@ import TaskScreen from "./src/screens/TaskScreen";
 import PlantScreen from "./src/screens/PlantScreen";
 import GardenScreen from "./src/screens/GardenScreen";
 import Login from "./src/screens/Login";
-
+import ForumScreen from "./src/screens/ForumScreen";
+import PostScreen from "./src/screens/PostScreen";
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
@@ -14,7 +15,9 @@ const navigator = createStackNavigator(
     Task: TaskScreen,
     Plantprofile: PlantScreen,
     garden: GardenScreen,
-    login:Login
+    login:Login,
+    forum: ForumScreen,
+    postpage: PostScreen,
   },
   {
     initialRouteName: "Home",

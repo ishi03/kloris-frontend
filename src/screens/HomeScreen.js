@@ -24,6 +24,10 @@ const HomeScreen = (props) => {
       <Text>Login</Text>
     </TouchableOpacity>
 
+    <TouchableOpacity onPress={()=>{props.navigation.navigate('forum')}}>
+      <Text>Forum</Text>
+    </TouchableOpacity>
+
   </View>
 };
 

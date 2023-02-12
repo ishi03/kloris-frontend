@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,12 +10,58 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
+import axios from "axios";
+// const axios = require("axios");
 
-const Login = () => {
+const Login = (props) => {
   const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
+  const onSubmit=()=>{
+    console.log("->",email,password);
+    axios.post(`http://183.87.244.254:5000/form_login`, { name1: email, pwd: password })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      }).catch(error => console.log(error));
+  }
  
+  const onSubmit2 = async () => {
+    try {
+      const options = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      };
+      var bodyFormData = new FormData();
+      bodyFormData.append('uname', 'hii');
+      bodyFormData.append('passwd', 'helloo'); 
+      const data = await axios.post("http://192.168.0.103:8000/login",bodyFormData,options); 
+      if(data.data === "success"){
+        props.navigation.navigate('Task');
+      }
+      console.log(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
+  const onSubmit3=async ()=> {
+    let response = () => {
+      return new Promise(function(resolve, reject) {
+        fetch('http://127.0.0.1:8000/form_login', {
+          params: {
+            username: 'eeshe', password: 'eeshee'
+          }
+        }).then(response => {
+          resolve(response);
+        });
+      });
+    };
+    let responseData = await response();
+    console.log(responseData.data);
+  }
+
   return (
     <View style={styles.container}>
       {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
@@ -59,7 +105,7 @@ const Login = () => {
             <Text style={styles.forgot_button}>Forgot Password?</Text>
         </TouchableOpacity>
     
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity onPress={onSubmit2} style={styles.loginBtn}>
             <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
         </View>
