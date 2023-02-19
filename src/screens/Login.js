@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,56 +11,57 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
-// const axios = require("axios");
+import { Context as AuthContext } from "../context/AuthContext";
 
-const Login = (props) => {
+const Login = (navigation) => {
+
+  const {state, signin} = useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
-  const onSubmit=()=>{
-    console.log("->",email,password);
-    axios.post(`http://183.87.244.254:5000/form_login`, { name1: email, pwd: password })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      }).catch(error => console.log(error));
-  }
+  // const onSubmit = async () => {
+  //   try {
+  //     const options = {
+  //       headers: {'Content-Type': 'multipart/form-data'}
+  //     };
+  //     var bodyFormData = new FormData();
+  //     // console.log(email,password);
+  //     bodyFormData.append('uname', email);
+  //     bodyFormData.append('passwd', password); 
+  //     const data = await axios.post("http://192.168.0.103:8000/login",bodyFormData,options); 
+  //     // if(data.data === "success"){
+  //     //   props.navigation.navigate('Task');
+  //     // }
+  //     console.log("->",data.data);
+  //     console.log("-->",JSON.parse(data.data));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+
+  // };
  
-  const onSubmit2 = async () => {
-    try {
-      const options = {
-        headers: {'Content-Type': 'multipart/form-data'}
-      };
-      var bodyFormData = new FormData();
-      bodyFormData.append('uname', 'hii');
-      bodyFormData.append('passwd', 'helloo'); 
-      const data = await axios.post("http://192.168.0.103:8000/login",bodyFormData,options); 
-      if(data.data === "success"){
-        props.navigation.navigate('Task');
-      }
-      console.log(data.data);
-    } catch (error) {
-      console.log(error);
-    }
+  // const onSubmit2 = async () => {
+  //   try {
+  //     const options = {
+  //       headers: {'Content-Type': 'multipart/form-data'}
+  //     };
+  //     var bodyFormData = new FormData();
+  //     // console.log(email,password);
+  //     bodyFormData.append('uname', email);
+  //     bodyFormData.append('passwd', password); 
+  //     const data = await axios.post("http://192.168.0.101:8000/login",bodyFormData,options); 
+  //     if(typeof data.data['token'] !== "undefined"){
+  //       // localStorage.setItem("jwtToken", data.data['token']);
+  //       props.navigation.navigate('Task');
+  //     }
+  //     console.log("-->",data.data['token']);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
 
-  };
-
-  const onSubmit3=async ()=> {
-    let response = () => {
-      return new Promise(function(resolve, reject) {
-        fetch('http://127.0.0.1:8000/form_login', {
-          params: {
-            username: 'eeshe', password: 'eeshee'
-          }
-        }).then(response => {
-          resolve(response);
-        });
-      });
-    };
-    let responseData = await response();
-    console.log(responseData.data);
-  }
+  // };
+  console.log(state);
 
   return (
     <View style={styles.container}>
@@ -73,14 +74,14 @@ const Login = (props) => {
       <Text style={styles.tinytext}>Already Registered? Login</Text>
 
       {/* <View style={styles.fields}> */}
-        <View style={styles.inputView}>
+        {/* <View style={styles.inputView}>
             <TextInput
             style={styles.TextInput}
             placeholder="Name"
             placeholderTextColor="#003f5c"
             onChangeText={(name) => setName(name)}
             />
-        </View>
+        </View> */}
 
         <View style={styles.inputView}>
             <TextInput
@@ -104,8 +105,10 @@ const Login = (props) => {
         <TouchableOpacity>
             <Text style={styles.forgot_button}>Forgot Password?</Text>
         </TouchableOpacity>
-    
-        <TouchableOpacity onPress={onSubmit2} style={styles.loginBtn}>
+        
+        {state.errorMessage?<Text style={styles.errorMessage}>{state.errorMessage}</Text>:null}
+
+        <TouchableOpacity onPress={()=>signin({email, password})} style={styles.loginBtn}>
             <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
         </View>
@@ -170,6 +173,9 @@ const styles = StyleSheet.create({
       marginTop: 40,
       backgroundColor: "#388000",
     },
+    errorMessage:{
+      color:"red"
+    }
   });
 
 export default Login;

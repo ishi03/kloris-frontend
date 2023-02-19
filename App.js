@@ -8,6 +8,8 @@ import GardenScreen from "./src/screens/GardenScreen";
 import Login from "./src/screens/Login";
 import ForumScreen from "./src/screens/ForumScreen";
 import PostScreen from "./src/screens/PostScreen";
+import { Provider as AuthProvider } from "./src/context/AuthContext";
+
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
@@ -27,4 +29,12 @@ const navigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(navigator);
+const App = createAppContainer(navigator);
+
+export default ()=>{
+  return(
+    <AuthProvider>
+      <App/>
+    </AuthProvider>
+  )
+}

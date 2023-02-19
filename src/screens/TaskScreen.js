@@ -1,11 +1,29 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { View,Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import TaskCard from '../components/TaskCard';
 import PlantImg from '../components/PlantImg';
 import plants from '../../dummyData/plants';
 import tasks from '../../dummyData/tasks';
+import axios from "axios";
 
 const TaskScreen = (props) => {
+    const [tasks1,setTasks1]=useState([]);
+
+    const getTasks1= async()=>{
+        const config = {
+            headers:{
+              'x-access-token':localStorage.getItem('jwtToken')
+            }
+          };
+        const { tasks1 } = await axios.get(`http://192.168.0.101:8000/all_todos`,config);
+        setData(tasks1);
+        console.log(tasks1);
+    }
+
+    useEffect(() => {
+        getTasks1();
+      }, []);
+
     return <View style={styles.viewStyle}>
         <Text style={styles.greetingText}>Good Morning!</Text>
         <View>
