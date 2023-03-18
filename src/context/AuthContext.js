@@ -1,6 +1,7 @@
 import createDataContext from "./createDataContext";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { outNavigate } from "../navigationRef";
 
 const authReducer = (state, action) => {
     switch(action.type) {
@@ -27,7 +28,8 @@ const signin=(dispatch)=>{
               const data = await axios.post("http://192.168.0.101:8000/login",bodyFormData,options); 
               if(typeof data.data['token'] !== "undefined"){
                 await AsyncStorage.setItem('token',data.data['token']);
-                dispatch({type:"signin", payload: data.data['token']})
+                dispatch({type:"signin", payload: data.data['token']});
+                outNavigate('Task'); // to be modified later to taskscreen after forum screen is wired in
               }
               else{
                 dispatch({type:"add_error", payload:"the email or password is incorrect"})

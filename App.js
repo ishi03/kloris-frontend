@@ -9,6 +9,7 @@ import Login from "./src/screens/Login";
 import ForumScreen from "./src/screens/ForumScreen";
 import PostScreen from "./src/screens/PostScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { setOutNavigator } from "./src/navigationRef";
 
 const navigator = createStackNavigator(
   {
@@ -34,7 +35,7 @@ const App = createAppContainer(navigator);
 export default ()=>{
   return(
     <AuthProvider>
-      <App/>
+      <App ref={(outNavigator)=>{setOutNavigator(outNavigator)}}/>
     </AuthProvider>
   )
 }

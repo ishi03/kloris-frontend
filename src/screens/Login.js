@@ -61,7 +61,7 @@ const Login = (navigation) => {
   //   }
 
   // };
-  console.log(state);
+  // console.log(state);
 
   return (
     <View style={styles.container}>

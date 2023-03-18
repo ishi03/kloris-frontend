@@ -3,12 +3,11 @@ import { Image,View, Text, StyleSheet } from 'react-native';
 
 const PlantImg = ({plant}) => {
     return <View>
-        {/* <Image style={styles.image} source={plant.imgSource}/> */}
         <Image 
                 source={plant.imgSource}
                 style={styles.image}
             />
-        <Text>{plant.name}</Text>
+        <Text style={styles.name}>{plant.name}</Text>
     </View>
 };
 
@@ -20,17 +19,10 @@ const styles = StyleSheet.create({
     // overflow:"hidden",
     borderWidth:2,
     margin:8
-}
-// ,
-//   image2:{
-//     width: 80,
-//     height: 80,
-//     borderRadius: 80/2,
-//     overflow: "hidden",
-//     borderWidth: 3,
-//     margin:"2%",
-//   },
-
+},
+  name:{
+    textAlign:"center",
+  }
 });
 
 export default PlantImg;

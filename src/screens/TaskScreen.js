@@ -5,18 +5,35 @@ import PlantImg from '../components/PlantImg';
 import plants from '../../dummyData/plants';
 import tasks from '../../dummyData/tasks';
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+// create add custom task space; add date and username
 const TaskScreen = (props) => {
     const [tasks1,setTasks1]=useState([]);
+    const [plants1,setPlants1]=useState([]);
 
     const getTasks1= async()=>{
         const config = {
             headers:{
-              'x-access-token':localStorage.getItem('jwtToken')
+              'x-access-token':await AsyncStorage.getItem('token')
             }
           };
-        const { tasks1 } = await axios.get(`http://192.168.0.101:8000/all_todos`,config);
-        setData(tasks1);
+        const response  = await axios.get(`http://192.168.0.101:8000/user_todos`,config);
+        setTasks1(response.data.tasks);
+        console.log("----")
+        console.log(tasks1);
+    }
+
+    const getPlants1= async()=>{
+        const config = {
+            headers:{
+              'x-access-token':await AsyncStorage.getItem('token')
+            }
+          };
+        const response  = await axios.get(`http://192.168.0.101:8000/all_todos`,config);
+        setTasks1(response.data.tasks);
+        console.log("----")
         console.log(tasks1);
     }
 
@@ -53,8 +70,8 @@ const TaskScreen = (props) => {
                 <FlatList
                 horizontal={false}
                 showsVerticalScrollIndicator
-                data={tasks}
-                keyExtractor={task=>task.id}
+                data={tasks1}
+                keyExtractor={task=>task._id}
                 renderItem={({item})=>{
                     return <View>
                         <TaskCard task={item}/>
