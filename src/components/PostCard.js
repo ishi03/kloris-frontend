@@ -1,15 +1,17 @@
 import React, { useReducer } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/Octicons';
 
-
-const PostCard = ({post}) => {
+const PostCard = ({question}) => {
+    console.log(question)
     return <View style={styles.cardView}>
-        <Text style={styles.postText}>{post.title}</Text>
+        <Text numberOfLines={2} style={styles.postText}>{question.title}</Text>
         <View style={styles.likeView}>
-            <Image source={require("../../assets/heart.png")} style={styles.image}/>
-            <Text>{post.likes}</Text>
-            <Image source={require("../../assets/comment.png")} style={styles.image}/>
-            <Text>{post.comments}</Text>
+            {/* <Image source={require("../../assets/heart.png")} style={styles.image}/> */}
+            <Icon name="heart" size={20}/>  
+            <Text> {question.likes} </Text>
+            <Icon name="comment" size={20}/> 
+            <Text> {question.comments.length}</Text>
         </View>
         </View>
 };

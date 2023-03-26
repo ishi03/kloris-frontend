@@ -1,13 +1,24 @@
 import React, { useReducer } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
+// import { CheckBox } from '@rneui/themed';
 
-const TaskCard = ({task}) => {
+const TaskCard = ({task}) => { // pass status as prop
     return <View style={styles.cardView}>
         <Image style={styles.image} source={task.imgSource}/>
         <View style={styles.textView}>
         <Text style={styles.nameText}>{task.name}</Text>
         <Text style={styles.taskText}>{task.task}</Text>
         <Text style={styles.infoText}>{task.otherInfo}</Text>
+        </View>
+        <View>
+        {/* <CheckBox
+           checked={true}
+           onPress={toggleCheckbox}
+           iconType="material-community"
+           checkedIcon="checkbox-outline"
+           uncheckedIcon={'checkbox-blank-outline'}
+           checkedColor="#388000"
+         /> */}
         </View>
     </View>
 };

@@ -6,7 +6,8 @@ import plants from '../../dummyData/plants';
 import tasks from '../../dummyData/tasks';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import host from '../HostInfo';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 // create add custom task space; add date and username
 const TaskScreen = (props) => {
@@ -19,7 +20,7 @@ const TaskScreen = (props) => {
               'x-access-token':await AsyncStorage.getItem('token')
             }
           };
-        const response  = await axios.get(`http://192.168.0.101:8000/user_todos`,config);
+        const response  = await axios.get(host+`/user_todos`,config);
         setTasks1(response.data.tasks);
         console.log("----")
         console.log(tasks1);
@@ -31,7 +32,7 @@ const TaskScreen = (props) => {
               'x-access-token':await AsyncStorage.getItem('token')
             }
           };
-        const response  = await axios.get(`http://192.168.0.101:8000/all_todos`,config);
+        const response  = await axios.get(host+`/all_todos`,config);
         setTasks1(response.data.tasks);
         console.log("----")
         console.log(tasks1);
@@ -41,7 +42,8 @@ const TaskScreen = (props) => {
         getTasks1();
       }, []);
 
-    return <View style={styles.viewStyle}>
+    return (
+        <View style={styles.viewStyle}>
         <Text style={styles.greetingText}>Good Morning!</Text>
         <View>
         <TouchableOpacity onPress={()=>{props.navigation.navigate('garden')}}>
@@ -81,8 +83,22 @@ const TaskScreen = (props) => {
                 </View>
         </View>
 
-    </View>
+    </View>)
 };
+// const myIcon2 = <Icon name="rocket" size={30} color="#900" />;
+// TaskScreen.navigationOptions = () => {
+//     return {
+//         title: 'Home!',
+//         tabBarIcon: ()=>{
+//             return <Icon name="rocket" size={30} color="#900" />
+//     },
+//         tabBarLabel:'tasks',
+//     };
+//   };
+
+
+// title: 'Home',
+// tabBarIcon: <Icon name="rocket" size={30} color="#900" />
 
 const styles = StyleSheet.create({
     viewStyle:{
