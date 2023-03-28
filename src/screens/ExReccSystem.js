@@ -3,11 +3,11 @@ import { Text, StyleSheet, View, FlatList } from 'react-native';
 import axios from 'axios';
 import host from '../HostInfo';
 
-const ExReccSystem = ({navigation}) => {
+const ExReccScreen = ({navigation}) => {
 
     return <View>
         
     </View>
 }
 
-export default ExReccSystem;
+export default ExReccScreen;

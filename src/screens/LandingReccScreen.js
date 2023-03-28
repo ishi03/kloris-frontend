@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import host from '../HostInfo';
 
-const LandingReccSystem = ({navigation}) => {
+const LandingReccScreen = ({navigation}) => {
 
     return <View>
         <TouchableOpacity>
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
       },
 })
 
-export default LandingReccSystem;
+export default LandingReccScreen;

@@ -4,33 +4,33 @@ import React, { useState } from 'react';
   import AntDesign from '@expo/vector-icons/AntDesign';
 
   const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
+    { label: 'Medicinal Herb', value: 'Medicinal Herb' },
+    { label: 'Vegetable', value: 'Vegetable' },
+    { label: 'Cut Flower', value: 'Cut Flower' },
+    // { label: 'Culinary Herb', value: '4' },
 
   ];
 
-  const DropdownComponent = () => {
+  const DropdownComponent = (props) => {
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
 
-    const renderLabel = () => {
-      if (value || isFocus) {
-        return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-            Dropdown label
-          </Text>
-        );
-      }
-      return null;
-    };
+    // const renderLabel = () => {
+    //   if (value || isFocus) {
+    //     return (
+    //       <Text style={[styles.label, isFocus && { color:"#388000" }]}>
+    //         select use
+    //       </Text>
+    //     );
+    //   }
+    //   return null;
+    // };
 
     return (
       <View style={styles.container}>
-        {renderLabel()}
+        {/* {renderLabel()} */}
         <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          style={[styles.dropdown, isFocus && { borderColor: "#388000" }]}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
@@ -40,23 +40,25 @@ import React, { useState } from 'react';
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select item' : '...'}
-          searchPlaceholder="Search..."
+          placeholder={!isFocus ? 'Select use' : '...'}
+          searchPlaceholder="Search.."
+          placeholderTextColor="#003f5c"
           value={value}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
-            setValue(item.value);
+            setValue(item.value)
+            props.addUse(item.value);
             setIsFocus(false);
           }}
-          renderLeftIcon={() => (
-            <AntDesign
-              style={styles.icon}
-              color={isFocus ? 'blue' : 'black'}
-              name="Safety"
-              size={20}
-            />
-          )}
+          // renderLeftIcon={() => (
+          //   <AntDesign
+          //     style={styles.icon}
+          //     color={isFocus ? 'blue' : 'black'}
+          //     name="Safety"
+          //     size={20}
+          //   />
+          // )}
         />
       </View>
     );
@@ -68,13 +70,17 @@ import React, { useState } from 'react';
     container: {
       backgroundColor: 'white',
       padding: 16,
+      width: "80%"
     },
     dropdown: {
       height: 50,
-      borderColor: 'gray',
-      borderWidth: 0.5,
-      borderRadius: 8,
-      paddingHorizontal: 8,
+      // borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 30,
+      paddingHorizontal: "12%",
+      alignItems: "flex-start",
+      height: 45,
+
     },
     icon: {
       marginRight: 5,

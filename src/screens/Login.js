@@ -69,9 +69,9 @@ const Login = (navigation) => {
       <ImageBackground source={require("../../assets/bg1.png")} resizeMode="cover" style={styles.image}>
       {/* <StatusBar style="auto" /> */}
       <View style={styles.content}>
-      <Text style={styles.heading}>Create new</Text>
-      <Text style={styles.heading}>Account</Text>
-      <Text style={styles.tinytext}>Already Registered? Login</Text>
+      <Text style={styles.heading}>LOGIN</Text>
+      {/* <Text style={styles.heading}>Account</Text> */}
+      <Text style={styles.tinytext}>New Here? Sign Up</Text>
 
       {/* <View style={styles.fields}> */}
         {/* <View style={styles.inputView}>

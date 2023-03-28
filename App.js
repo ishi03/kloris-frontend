@@ -16,6 +16,8 @@ import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setOutNavigator } from "./src/navigationRef";
 import AddPost from "./src/screens/AddPost";
 import NewReccScreen from './src/screens/NewReccScreen';
+import LandingReccScreen from './src/screens/LandingReccScreen';
+import ExReccScreen from './src/screens/ExReccSystem';
 import Icon from 'react-native-vector-icons/Octicons';
 
 const navigator1 = createStackNavigator(
@@ -69,7 +71,19 @@ const navigator = createSwitchNavigator(
           )  
           }
       },
-      Counter: NewReccScreen,
+      reccFlow:{
+        screen: createStackNavigator({
+          newRecc: NewReccScreen,
+          landingRecc: PlantScreen,
+          exRecc: GardenScreen,
+        }),
+          navigationOptions:{
+            tabBarLabel: 'Recommendation',
+            tabBarIcon: ({tintColor})=>(  
+              <Icon name="star" color={tintColor} size={21}/>  
+          )  
+          }
+      },
       forumFlow:{
         screen: createStackNavigator({
           forum: ForumScreen,
