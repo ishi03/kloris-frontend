@@ -60,8 +60,11 @@ const NewReccScreen = ({navigation}) => {
         bodyFormData.append('lat', location.coords.latitude); 
         bodyFormData.append('long', location.coords.longitude); 
 
-        const response = await axios.get(host+"/recommendation",bodyFormData,options); 
+        const response = await axios.post(host+`/recommendation`,bodyFormData,options); 
         console.log(response.data.recommendation)
+        // setHt("")
+        // setSpread("")
+        // setUse("")
       }
       catch(e){
         console.log(e);
@@ -81,6 +84,7 @@ const NewReccScreen = ({navigation}) => {
             placeholder="Height you're looking for"
             placeholderTextColor="#003f5c"
             onChangeText={(ht)=>{setHt(ht)}}
+            value={ht}
             />
         </View>
 

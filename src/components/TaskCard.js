@@ -1,8 +1,9 @@
-import React, { useReducer } from 'react';
+import React, { useState } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
-// import { CheckBox } from '@rneui/themed';
-
+// import CheckBox from './Checkbox';
+import Checkbox from "expo-checkbox";
 const TaskCard = ({task}) => { // pass status as prop
+  const [isChecked, setChecked] = useState(false);
     return <View style={styles.cardView}>
         <Image style={styles.image} source={task.imgSource}/>
         <View style={styles.textView}>
@@ -10,15 +11,12 @@ const TaskCard = ({task}) => { // pass status as prop
         <Text style={styles.taskText}>{task.task}</Text>
         <Text style={styles.infoText}>{task.otherInfo}</Text>
         </View>
-        <View>
-        {/* <CheckBox
-           checked={true}
-           onPress={toggleCheckbox}
-           iconType="material-community"
-           checkedIcon="checkbox-outline"
-           uncheckedIcon={'checkbox-blank-outline'}
-           checkedColor="#388000"
-         /> */}
+        <View style={styles.checkboxView}>
+        <Checkbox
+        style={styles.checkbox}
+        color="#388000"
+        value={isChecked} // if true or false
+        onValueChange={setChecked} />
         </View>
     </View>
 };
@@ -34,7 +32,9 @@ const styles = StyleSheet.create({
     padding:"5%",
   },
   textView:{
-    marginLeft:"10%"
+    marginLeft:"10%",
+    // backgroundColor:"pink",
+    width:"50%"
   },
   nameText: {
     fontSize: 15,
@@ -55,6 +55,14 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 3,
   },
+  checkboxView:{
+    // backgroundColor: "yellow",
+    textAlign:"center",
+  },
+  checkbox:{
+    marginTop:"130%",
+    // marginLeft:"3%"
+  }
 });
 
 export default TaskCard;

@@ -8,7 +8,6 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import host from '../HostInfo';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 // create add custom task space; add date and username
 const TaskScreen = (props) => {
     const [tasks1,setTasks1]=useState([]);
@@ -26,16 +25,16 @@ const TaskScreen = (props) => {
         console.log(tasks1);
     }
 
-    const getPlants1= async()=>{
+    const getPlants= async()=>{
         const config = {
             headers:{
               'x-access-token':await AsyncStorage.getItem('token')
             }
           };
         const response  = await axios.get(host+`/all_todos`,config);
-        setTasks1(response.data.tasks);
+        setTasks1(response.data.plants);
         console.log("----")
-        console.log(tasks1);
+        console.log(plants1);
     }
 
     useEffect(() => {
@@ -104,7 +103,8 @@ const styles = StyleSheet.create({
     viewStyle:{
         marginLeft:"5%",
         marginRight:"5%",
-        height:"100%"
+        height:"100%",
+        // backgroundColor: 'white'
         // marginBottom:"5%",
       },
     greetingText:{
