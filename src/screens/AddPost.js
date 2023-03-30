@@ -9,18 +9,32 @@ import {
     Button,
     TouchableOpacity,
   } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddPost = () =>{
     const [title, setTitle] = useState("");
-    
+    const [body, setBody] = useState("");
+
+    const post=async()=>{
+        const options = {
+            headers: {'Content-Type': 'multipart/form-data',
+            'x-access-token':await AsyncStorage.getItem('token'),
+        },
+          };
+          var bodyFormData = new FormData();
+          // console.log(email,password);
+          bodyFormData.append('title', title);
+          bodyFormData.append('body', body); 
+          const data = await axios.post(host+"/add_question",bodyFormData,options); 
+    }
     return(
         <View>
             <View style={styles.title1}>
                 <View>
                     <Text style={styles.heading}>Create Post</Text>
                 </View>
-            <TouchableOpacity style={styles.postbtn}>
-                <Text>Post</Text>
+            <TouchableOpacity>
+            <Image source={require("../../assets/add.png")} style={styles.image}/>
             </TouchableOpacity>
             </View>
 
@@ -30,15 +44,20 @@ const AddPost = () =>{
             placeholder="Title"
             placeholderTextColor="#003f5c"
             onChangeText={(title) => setTitle(title)}
+            value={title}
             />
         </View>
 
-        <View style={styles.inputView}>
+        <View style={styles.inputView2}>
             <TextInput
-            style={styles.TextInput}
+            style={styles.TextInput} //[styles.TextInput,{height: Math.max(35, ht2)}]
             placeholder="Body"
             placeholderTextColor="#003f5c"
-            onChangeText={(title) => setTitle(title)}
+            onChangeText={(body) => setBody(body)}
+            value={body}
+            multiline={true}
+            numberOfLines = {4}
+            textAlignVertical={'top'}
             />
         </View>
 
@@ -47,15 +66,14 @@ const AddPost = () =>{
 }
 
 const styles = StyleSheet.create({
-    postbtn:{
-      width: "20%",
-      borderRadius: 25,
-      height: 40,
-      alignItems: "center",
-      justifyContent: "center",
-      color: "#ffffff",
-      backgroundColor: "#388000",
-    },
+    image: {
+        width:30,
+        height:30,
+        marginRight:"1%",
+        marginLeft:"5%",
+        marginTop:"2%"
+        // borderRadius:150,
+      },
     title: {
           width: "70%",
           height: 45,
@@ -70,15 +88,24 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     inputView: {
-          borderWidth:1,
+        //   borderWidth:1,
         //   borderRadius: 30,
-          width: "70%",
+          width: "80%",
           height: 45,
           marginBottom: "3%",
           alignItems: "flex-start",
         },
+    inputView2: {
+        // borderWidth:1,
+        //   borderRadius: 30,
+        width: "80%",
+        height: 245,
+        marginBottom: "3%",
+        alignItems: "flex-start",
+        // textAlignVertical: 'top',
+        },
     TextInput: {
-        height: 50,
+        height: 100,
         flex: 1,
         padding: 10,
         marginLeft: "5%",

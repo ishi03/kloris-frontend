@@ -1,13 +1,13 @@
 import React, { useReducer } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
 
-const GardenCard = ({plant}) => {
+const ReccCard = ({plant}) => {
     return <View style={styles.cardView}>
-        <Image style={styles.image} source={{uri:plant.image}}/>
-
+        <Image style={styles.image} source={{uri: plant.image }}/>
+        {/* <Text>{plant.image}</Text> */}
         <View style={styles.textView}>
-        <Text style={styles.plantText}>{plant.plant_name}</Text>
-        <Text style={styles.infoText}>added March 03</Text>
+        <Text style={styles.plantText}>{plant.common_name}</Text>
+        <Text style={styles.infoText}>{plant.scientific_name}</Text>
 
         </View>
         </View>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GardenCard;
+export default ReccCard;

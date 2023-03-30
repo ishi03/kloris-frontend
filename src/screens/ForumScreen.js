@@ -5,6 +5,8 @@ import posts from '../../dummyData/posts';
 import { Button } from 'react-native';
 import axios from 'axios';
 import host from '../HostInfo';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 const ForumScreen = (props) => {
 
     const [questions, setQuestions]=useState([]);
@@ -23,8 +25,8 @@ const ForumScreen = (props) => {
         <View style={styles.title}>
         <Text style={styles.text}>Discussion Board</Text>
         <TouchableOpacity onPress={()=>{props.navigation.navigate('AddPost')}}>
-          <Image source={require("../../assets/add.png")} style={styles.image}/>
-          {/* <Text>ADD</Text> */}
+          {/* <Image source={require("../../assets/add.png")} style={styles.image}/> */}
+          <Icon name="pen" size={21} style={styles.image}/>
         </TouchableOpacity>
         </View>
         <FlatList

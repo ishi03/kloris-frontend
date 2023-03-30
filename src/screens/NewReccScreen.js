@@ -52,19 +52,37 @@ const NewReccScreen = ({navigation}) => {
         }
         };
         var bodyFormData = new FormData();
+        var lat=0;
+        var long=0;
         console.log(ht, spread, use, location.coords.latitude, location.coords.longitude);
         bodyFormData.append('light', 'Full Sun');
         bodyFormData.append('height', ht); 
         bodyFormData.append('spread', spread); 
-        bodyFormData.append('usee', use); 
-        bodyFormData.append('lat', location.coords.latitude); 
-        bodyFormData.append('long', location.coords.longitude); 
-
+        bodyFormData.append('usee', use);
+        if(location!==null){
+          lat=location.coords.latitude;
+          long=location.coords.longitude;
+        } 
+         else{
+          lat=19.02;
+          long=17.23;
+         }
+         bodyFormData.append('lat', lat); 
+         bodyFormData.append('long', long);
         const response = await axios.post(host+`/recommendation`,bodyFormData,options); 
         console.log(response.data.recommendation)
-        // setHt("")
-        // setSpread("")
-        // setUse("")
+        setHt("");
+        setSpread("");
+        setUse(null);
+        navigation.navigate({routeName:'recommendations',
+        params:{
+          ht:ht,
+          spread:spread,
+          usee:use,
+          lat:lat,
+          long:long
+        }})
+
       }
       catch(e){
         console.log(e);
@@ -94,6 +112,7 @@ const NewReccScreen = ({navigation}) => {
             placeholder="Spread you're looking for"
             placeholderTextColor="#003f5c"
             onChangeText={(spread)=>{setSpread(spread)}}
+            value={spread}
             />
         </View>
         <DropdownComponent addUse={setUse}/>

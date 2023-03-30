@@ -4,10 +4,10 @@ import { Image,View, Text, StyleSheet } from 'react-native';
 const PlantImg = ({plant}) => {
     return <View>
         <Image 
-                source={plant.imgSource}
+                source={{uri:plant.image}}
                 style={styles.image}
             />
-        <Text style={styles.name}>{plant.name}</Text>
+        <Text style={styles.name}>{plant.plant_name}</Text>
     </View>
 };
 

@@ -8,10 +8,12 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import host from '../HostInfo';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+// import Midnight from 'react-native-midnight'
 // create add custom task space; add date and username
 const TaskScreen = (props) => {
     const [tasks1,setTasks1]=useState([]);
     const [plants1,setPlants1]=useState([]);
+    // const [name, setName]=useState("");
 
     const getTasks1= async()=>{
         const config = {
@@ -23,27 +25,50 @@ const TaskScreen = (props) => {
         setTasks1(response.data.tasks);
         console.log("----")
         console.log(tasks1);
+        // setName(tasks1[0].username);
     }
 
     const getPlants= async()=>{
-        const config = {
-            headers:{
-              'x-access-token':await AsyncStorage.getItem('token')
-            }
+        const t= await AsyncStorage.getItem('token')
+        const AuthStr='Bearer '.concat(t)
+          const config = {
+            headers: {
+              'x-access-token':await AsyncStorage.getItem('token'),
+              'Authorization': AuthStr
+          }
           };
-        const response  = await axios.get(host+`/all_todos`,config);
-        setTasks1(response.data.plants);
+        const response  = await axios.get(host+`/mygarden`,config);
+        setPlants1(response.data.plants);
         console.log("----")
         console.log(plants1);
     }
 
+    const updateTask=async()=>{
+        const config = {
+          headers:{
+            'x-access-token':await AsyncStorage.getItem('token')
+          }
+        };
+      const response  = await axios.post(host+`/update_todos`,config);
+      console.log(response.data)
+      }
+
+    //   const midnight=() => {
+    //     const listener = Midnight.addListener(() => {
+    //       updateTask();
+    //     })
+    //     return () => listener.remove()
+    //   }
+
     useEffect(() => {
         getTasks1();
+        getPlants();
+        // updateTask();
       }, []);
 
     return (
         <View style={styles.viewStyle}>
-        <Text style={styles.greetingText}>Good Morning!</Text>
+        <Text style={styles.greetingText}>Welcome back!</Text>
         <View>
         <TouchableOpacity onPress={()=>{props.navigation.navigate('garden')}}>
         <Text style={styles.headingText}>My Garden</Text>
@@ -53,8 +78,8 @@ const TaskScreen = (props) => {
             <FlatList 
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={plants}
-                keyExtractor={plant=>plant.id}
+                data={plants1}
+                keyExtractor={plant=>plant._id}
                 renderItem={({item})=>{
                     return <View>
                         <PlantImg plant={item}/>
@@ -84,20 +109,6 @@ const TaskScreen = (props) => {
 
     </View>)
 };
-// const myIcon2 = <Icon name="rocket" size={30} color="#900" />;
-// TaskScreen.navigationOptions = () => {
-//     return {
-//         title: 'Home!',
-//         tabBarIcon: ()=>{
-//             return <Icon name="rocket" size={30} color="#900" />
-//     },
-//         tabBarLabel:'tasks',
-//     };
-//   };
-
-
-// title: 'Home',
-// tabBarIcon: <Icon name="rocket" size={30} color="#900" />
 
 const styles = StyleSheet.create({
     viewStyle:{
@@ -109,7 +120,8 @@ const styles = StyleSheet.create({
       },
     greetingText:{
         fontSize:28,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginBottom: 10
     },
     headingText:{
         fontSize:18,
@@ -117,6 +129,7 @@ const styles = StyleSheet.create({
     },
     gardenView:{
         flexDirection:"row",
+        marginBottom: 18
     },
     taskView:{
         flexDirection:"column",

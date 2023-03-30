@@ -18,6 +18,8 @@ import AddPost from "./src/screens/AddPost";
 import NewReccScreen from './src/screens/NewReccScreen';
 import LandingReccScreen from './src/screens/LandingReccScreen';
 import ExReccScreen from './src/screens/ExReccSystem';
+import ReccScreen from './src/screens/ReccsScreen';
+import PlantReccScreen from './src/screens/PlantReccScreen';
 import Icon from 'react-native-vector-icons/Octicons';
 
 const navigator1 = createStackNavigator(
@@ -76,6 +78,8 @@ const navigator = createSwitchNavigator(
           newRecc: NewReccScreen,
           landingRecc: PlantScreen,
           exRecc: GardenScreen,
+          recommendations: ReccScreen,
+          plantRecc: PlantReccScreen,
         }),
           navigationOptions:{
             tabBarLabel: 'Recommendation',

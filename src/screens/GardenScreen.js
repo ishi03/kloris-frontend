@@ -1,13 +1,32 @@
-import React, { useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View, FlatList,TouchableOpacity } from 'react-native';
 import GardenCard from '../components/GardenCard';
 import plants from '../../dummyData/plants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+import host from '../HostInfo';
 
 const GardenScreen = (props) => {
-    const reducer=()=>{
-        
-    }
-    const [state,dispatch]=useReducer(reducer,{count:0});
+
+  const [plants1,setPlants1]=useState([]);
+
+  const getPlants= async()=>{
+    const t= await AsyncStorage.getItem('token')
+    const AuthStr='Bearer '.concat(t)
+      const config = {
+        headers: {
+          'x-access-token':await AsyncStorage.getItem('token'),
+          'Authorization': AuthStr
+      }
+      };
+    const response  = await axios.get(host+`/mygarden`,config);
+    setPlants1(response.data.plants);
+    console.log("----")
+    console.log(plants1);
+}
+  useEffect(() => {
+    getPlants();
+  }, []);
     return <View style={styles.viewStyle}>
             <Text style={styles.greetingText}>My Garden</Text>
          <View>
@@ -15,14 +34,12 @@ const GardenScreen = (props) => {
                 <FlatList
                 horizontal={false}
                 showsVerticalScrollIndicator
-                data={plants}
-                keyExtractor={plant=>plant.id}
+                data={plants1}
+                keyExtractor={plant=>plant._id}
                 renderItem={({item})=>{
                     return <View>
                        <TouchableOpacity onPress={()=>{props.navigation.navigate('Plantprofile')}}>
-                        {/* <Text style={styles.headingText}>My Garden</Text> */}
                         <GardenCard plant={item}/>
-                       {/* { console.log(item)} */}
                         </TouchableOpacity>
                         
                         </View>

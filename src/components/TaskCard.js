@@ -1,14 +1,52 @@
 import React, { useState } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
-// import CheckBox from './Checkbox';
 import Checkbox from "expo-checkbox";
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import host from '../HostInfo';
+
 const TaskCard = ({task}) => { // pass status as prop
-  const [isChecked, setChecked] = useState(false);
+
+  const [isChecked, setChecked] = useState(task.status);
+  console.log("from db ", task.status);
+  const checkTask=async()=>{
+    const config = {
+      headers:{
+        'x-access-token':await AsyncStorage.getItem('token')
+      }
+    };
+  const response  = await axios.post(host+`/done_task/`+task._id,config);
+  }
+
+  const uncheckTask=async()=>{
+    const config = {
+      headers:{
+        'x-access-token':await AsyncStorage.getItem('token')
+      }
+    };
+  const response  = await axios.post(host+`/undone_task/`+task._id,config);
+  }
+
+  const checkHandler=()=>{
+    // setChecked(!isChecked);
+    console.log(isChecked);
+    if(isChecked===true){
+      uncheckTask();
+      setChecked(false);
+    }
+    else{
+      checkTask();
+      setChecked(true);
+    }
+  }
+
     return <View style={styles.cardView}>
-        <Image style={styles.image} source={task.imgSource}/>
+        <Image style={styles.image} source={{uri: task.image}}/>
+        {/* <Text>{task.imgSource}</Text> */}
         <View style={styles.textView}>
-        <Text style={styles.nameText}>{task.name}</Text>
+        <Text style={styles.nameText}>{task.plant_name}</Text>
         <Text style={styles.taskText}>{task.task}</Text>
+        {/* <Text>{task.status}</Text> */}
         <Text style={styles.infoText}>{task.otherInfo}</Text>
         </View>
         <View style={styles.checkboxView}>
@@ -16,7 +54,8 @@ const TaskCard = ({task}) => { // pass status as prop
         style={styles.checkbox}
         color="#388000"
         value={isChecked} // if true or false
-        onValueChange={setChecked} />
+        onValueChange={checkHandler}
+         />
         </View>
     </View>
 };
