@@ -1,7 +1,18 @@
 import React, { useReducer } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 
 const GardenCard = ({plant}) => {
+
+  const [loaded] = useFonts({
+    AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+    AileronThin :require('../../assets/fonts/Aileron-Thin.otf')
+  });
+
+  if (!loaded) {
+    return null;
+  };
+
     return <View style={styles.cardView}>
         <Image style={styles.image} source={{uri:plant.image}}/>
 
@@ -17,13 +28,14 @@ const styles = StyleSheet.create({
     
   cardView:{
     flexDirection:"row",
-    // backgroundColor:"#D6E8C8",
+    backgroundColor:"#D6E8C8",
     marginTop:"8%",
     // marginLeft:"5%",
     // marginRight:"5%",
     borderRadius:15,
     paddingLeft:"5%",
     paddingBottom:"2%",
+    paddingTop:"2%"
   },
   textView:{
     marginLeft:"10%"
@@ -32,14 +44,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   plantText: {
-    fontSize: 18,
+    fontSize: 20,
     marginBottom: "8%",
     marginTop:"2%",
-    fontWeight: "bold"
+    // fontWeight: "bold",
+    fontFamily: "AlatsiRegular"
   },
   infoText: {
     fontSize: 15,
-    marginTop: "5%"
+    marginTop: "5%", 
+    fontFamily:"AileronThin"
   },
   image: {
     width: 80,

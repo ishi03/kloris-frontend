@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-  import { StyleSheet, Text, View } from 'react-native';
-  import { Dropdown } from 'react-native-element-dropdown';
-  import AntDesign from '@expo/vector-icons/AntDesign';
+import { StyleSheet, Text, View } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { useFonts } from 'expo-font';
 
   const data = [
     { label: 'Medicinal Herb', value: 'Medicinal Herb' },
@@ -25,6 +26,15 @@ import React, { useState } from 'react';
     //   }
     //   return null;
     // };
+    const [loaded] = useFonts({
+      AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+      PoppinsMedium :require('../../assets/fonts/Poppins-ExtraLight.ttf')
+
+    });
+  
+    if (!loaded) {
+      return null;
+    };
 
     return (
       <View style={styles.container}>
@@ -40,7 +50,7 @@ import React, { useState } from 'react';
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select use' : '...'}
+          placeholder={!isFocus ? 'Select Use' : '...'}
           searchPlaceholder="Search.."
           placeholderTextColor="#003f5c"
           value={value}
@@ -80,7 +90,6 @@ import React, { useState } from 'react';
       paddingHorizontal: "12%",
       alignItems: "flex-start",
       height: 45,
-
     },
     icon: {
       marginRight: 5,
@@ -99,6 +108,7 @@ import React, { useState } from 'react';
     },
     selectedTextStyle: {
       fontSize: 16,
+      fontFamily:"PoppinsMedium"
     },
     iconStyle: {
       width: 20,
@@ -107,5 +117,6 @@ import React, { useState } from 'react';
     inputSearchStyle: {
       height: 40,
       fontSize: 16,
+      fontFamily:"PoppinsMedium"
     },
   });

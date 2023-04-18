@@ -30,7 +30,15 @@ const PlantScreen = (props) => {
   }
   useEffect(() => {
       getPlant1();
-    }, []);
+    }, []);  
+    const [loaded] = useFonts({
+      AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+    });
+  
+    if (!loaded) {
+      return null;
+    };
+
   return <View style={styles.viewStyle}>
     <View style={styles.upperView}>
       <Text style={styles.nameText}>My {plant1.plant_name}</Text>
@@ -69,20 +77,21 @@ const styles = StyleSheet.create({
 nameText:{
   fontSize:28,
   fontWeight: "bold",
-  // fontFamily: 'Alatsi-Regular'
+  fontFamily: 'Alatsi-Regular'
 },
-headingText:{
-  fontSize:18,
-  fontWeight: "bold",
-  // fontFamily: "Alatsi-Regular"
-},
-image: {
-  width:300,
-  height:300,
-  borderRadius:150,
-  // overflow:"hidden",
-  borderWidth:2,
-  marginTop:"5%",
+  headingText:{
+    fontSize:18,
+    // fontWeight: "bold",
+    fontFamily: 'AlatsiRegular',
+    marginLeft:"2%",
+  },
+  image: {
+    width:300,
+    height:300,
+    borderRadius:150,
+    // overflow:"hidden",
+    borderWidth:2,
+    marginTop:"5%",
 },
 upperView:{
 alignItems: "center",

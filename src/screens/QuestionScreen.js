@@ -3,6 +3,8 @@ import { Text, StyleSheet, View, FlatList } from 'react-native';
 import axios from 'axios';
 import host from '../HostInfo';
 import Icon from 'react-native-vector-icons/Octicons';
+import { useFonts } from 'expo-font';
+
 
 const QuestionScreen = ({ route, navigation }) => {
 
@@ -19,6 +21,15 @@ const QuestionScreen = ({ route, navigation }) => {
     }, []);
 
   console.log("id"+navigation.getParam('_id'));
+
+  const [loaded] = useFonts({
+    OpenSans :require('../../assets/fonts/OpenSans-Regular.ttf')
+  });
+
+  if (!loaded) {
+    return null;
+  };
+
     return <View style={styles.viewStyle}>
       <Text style={styles.qtext}>{question.title}</Text>
       <Text style={styles.body}>{question.body}</Text>
@@ -32,7 +43,7 @@ const QuestionScreen = ({ route, navigation }) => {
                 return <View style={styles.comment}>
                   {/* {console.log(item)} */}
                   <Text style={styles.user}>{item.user}</Text>
-                  <Text style={{fontSize:15}}>{item.comment}</Text>
+                  <Text style={{fontSize:15,marginLeft:"2%",fontFamily:"OpenSans"}}>{item.comment}</Text>
                     </View>
             }}
             />
@@ -47,23 +58,30 @@ const styles = StyleSheet.create({
     // marginBottom:"5%",
   },
   qtext: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: 20,
+    // fontWeight: "bold",
+    fontFamily:"OpenSans",
+    marginLeft:"2%",
+    marginTop:"5%"
   },
   body:{
-    marginTop: "3%",
+    marginLeft:"2%",
+    marginTop:"5%",
     fontSize: 15,
+    fontFamily:"OpenSans",
   },
   commentHeading:{
     marginTop:"5%",
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    marginLeft:"2%",
+    fontFamily:"OpenSans",
   },
   comment:{
     // backgroundColor: "#fff111",
     borderTopColor: '#388000',
     borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: "2.5%",
-    marginBottom:"2%"
+    marginBottom:"2%",
     // borderBottomColor: 'black',
     // borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -71,6 +89,7 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
     marginTop:"2%",
     color:"#636363",
+    marginLeft:"2%",
   }
 });
 

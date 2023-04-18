@@ -6,8 +6,10 @@ import { Button } from 'react-native';
 import axios from 'axios';
 import host from '../HostInfo';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useFonts } from 'expo-font';
 
 const ForumScreen = (props) => {
+
 
     const [questions, setQuestions]=useState([]);
     const getQuestions=async()=>{
@@ -20,6 +22,15 @@ const ForumScreen = (props) => {
     useEffect(() => {
       getQuestions();
     }, []);
+
+    const [loaded] = useFonts({
+      AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+      AileronThin :require('../../assets/fonts/Aileron-Thin.otf')
+    });
+
+    if (!loaded) {
+      return null;
+    };
 
     return <View>
         <View style={styles.title}>
@@ -51,16 +62,19 @@ const styles = StyleSheet.create({
   title:{
     flexDirection:"row",
     justifyContent: "space-between",
+    marginLeft:20
   },
   text: {
     fontSize: 30,
+    fontFamily:"AlatsiRegular"
   },
   image: {
     width:30,
     height:30,
-    marginRight:"1%",
+    marginRight:"2%",
     marginLeft:"5%",
-    marginTop:"15%"
+    marginTop:"35%",
+    color:"green"
     // borderRadius:150,
   },
 });
