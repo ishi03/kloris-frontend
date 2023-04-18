@@ -38,7 +38,7 @@ const GardenScreen = (props) => {
                 keyExtractor={plant=>plant._id}
                 renderItem={({item})=>{
                     return <View>
-                       <TouchableOpacity onPress={()=>{props.navigation.navigate('Plantprofile')}}>
+                       <TouchableOpacity onPress={()=>{props.navigation.navigate({routeName:'Plantprofile',params:{_id:item._id}})}}>
                         <GardenCard plant={item}/>
                         </TouchableOpacity>
                         

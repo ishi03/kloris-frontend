@@ -10,8 +10,10 @@ import {
     TouchableOpacity,
   } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+import host from '../HostInfo';
 
-const AddPost = () =>{
+const AddPost = (props) =>{
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
 
@@ -23,9 +25,12 @@ const AddPost = () =>{
           };
           var bodyFormData = new FormData();
           // console.log(email,password);
-          bodyFormData.append('title', title);
-          bodyFormData.append('body', body); 
+          bodyFormData.append('question', title);
+          bodyFormData.append('bodyy', body); 
           const data = await axios.post(host+"/add_question",bodyFormData,options); 
+          setBody("");
+          setTitle("");
+          props.navigation.navigate("ForumScreen");
     }
     return(
         <View>
@@ -33,7 +38,7 @@ const AddPost = () =>{
                 <View>
                     <Text style={styles.heading}>Create Post</Text>
                 </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={post}>
             <Image source={require("../../assets/add.png")} style={styles.image}/>
             </TouchableOpacity>
             </View>
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
         // borderRadius:150,
       },
     title: {
-          width: "70%",
+        //   width: "70%",
           height: 45,
           marginBottom: 20,
           marginLeft: "5%",
