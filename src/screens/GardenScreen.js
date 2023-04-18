@@ -5,6 +5,7 @@ import plants from '../../dummyData/plants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import host from '../HostInfo';
+import { useFonts } from 'expo-font';
 
 const GardenScreen = (props) => {
 
@@ -27,6 +28,17 @@ const GardenScreen = (props) => {
   useEffect(() => {
     getPlants();
   }, []);
+
+  const [loaded] = useFonts({
+    AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+    AileronThin :require('../../assets/fonts/Aileron-Thin.otf'),
+    Cardo :require('../../assets/fonts/Cardo-Regular.ttf')
+  });
+
+  if (!loaded) {
+    return null;
+  };
+
     return <View style={styles.viewStyle}>
             <Text style={styles.greetingText}>My Garden</Text>
          <View>
@@ -64,11 +76,22 @@ const styles = StyleSheet.create({
   },
   greetingText:{
     fontSize:28,
-    fontWeight: "bold"
+    // fontWeight: "bold",
+    marginBottom: 10,
+    fontFamily: "Cardo",
+    color: "white",
+    width: "70%",
+    borderRadius: 10,
+    height: 50,
+    justifyContent: "center",
+    marginTop: 5,
+    paddingLeft:15,
+    backgroundColor: "#388000",
 },
 plantView:{
     flexDirection:"column",
     height: "80%",
+    // backgroundColor:"green"
 }
 });
 

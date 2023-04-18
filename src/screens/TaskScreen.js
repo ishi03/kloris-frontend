@@ -5,6 +5,7 @@ import PlantImg from '../components/PlantImg';
 import plants from '../../dummyData/plants';
 import tasks from '../../dummyData/tasks';
 import axios from "axios";
+import { useFonts } from 'expo-font';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import host from '../HostInfo';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -66,6 +67,15 @@ const TaskScreen = (props) => {
         // updateTask();
       }, []);
 
+      const [loaded] = useFonts({
+        AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+        Cardo :require('../../assets/fonts/Cardo-Regular.ttf')
+      });
+    
+      if (!loaded) {
+        return null;
+      };
+
     return (
         <View style={styles.viewStyle}>
         <Text style={styles.greetingText}>Welcome back!</Text>
@@ -120,12 +130,23 @@ const styles = StyleSheet.create({
       },
     greetingText:{
         fontSize:28,
-        fontWeight: "bold",
-        marginBottom: 10
+        // fontWeight: "bold",
+        marginBottom: 10,
+        fontFamily: "AlatsiRegular"
     },
     headingText:{
-        fontSize:18,
-        fontWeight: "bold"
+        fontSize:20,
+        // fontWeight: "bold",
+        fontFamily: "Cardo",
+        // alignSelf: 'flex-start',
+        color: "white",
+        width: "50%",
+        borderRadius: 15,
+        height: 35,
+        justifyContent: "center",
+        marginTop: 10,
+        paddingLeft:15,
+        backgroundColor: "#388000",
     },
     gardenView:{
         flexDirection:"row",

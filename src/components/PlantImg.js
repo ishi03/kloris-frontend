@@ -1,7 +1,18 @@
 import React, { useReducer } from 'react';
 import { Image,View, Text, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
+
 
 const PlantImg = ({plant}) => {
+  
+  const [loaded] = useFonts({
+    AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+    AileronThin :require('../../assets/fonts/Aileron-Thin.otf')
+  });
+  
+  if (!loaded) {
+    return null;
+  };
     return <View>
         <Image 
                 source={{uri:plant.image}}
@@ -22,6 +33,7 @@ const styles = StyleSheet.create({
 },
   name:{
     textAlign:"center",
+    fontFamily:"AlatsiRegular"
   }
 });
 

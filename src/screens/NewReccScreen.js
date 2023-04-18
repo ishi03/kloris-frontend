@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+import { useFonts } from 'expo-font';
 import axios from 'axios';
 import host from '../HostInfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
 import DropdownComponent from '../components/DropdownComponent';
+
 
 const NewReccScreen = ({navigation}) => {
 
@@ -93,13 +95,22 @@ const NewReccScreen = ({navigation}) => {
       startWatching();
       getLocation();
     },[])
+    const [loaded] = useFonts({
+      AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+      PoppinsMedium :require('../../assets/fonts/Poppins-ExtraLight.ttf')
 
+    });
+  
+    if (!loaded) {
+      return null;
+    };
+    
     return <View style={styles.container} >
         {err? <Text>Please enable location services</Text>:null}
         <View style={styles.inputView}>
             <TextInput
             style={styles.TextInput}
-            placeholder="Height you're looking for"
+            placeholder="Height in feet"
             placeholderTextColor="#003f5c"
             onChangeText={(ht)=>{setHt(ht)}}
             value={ht}
@@ -109,7 +120,7 @@ const NewReccScreen = ({navigation}) => {
         <View style={styles.inputView}>
             <TextInput
             style={styles.TextInput}
-            placeholder="Spread you're looking for"
+            placeholder="Spread in feet"
             placeholderTextColor="#003f5c"
             onChangeText={(spread)=>{setSpread(spread)}}
             value={spread}
@@ -117,7 +128,7 @@ const NewReccScreen = ({navigation}) => {
         </View>
         <DropdownComponent addUse={setUse}/>
         <TouchableOpacity onPress={()=>recc({ht, spread, use})} style={styles.loginBtn} >
-        <Text style={styles.loginText}>Get Recommendations</Text>
+        <Text style={styles.heading}>Get Recommendations</Text>
         </TouchableOpacity>
     </View>
 }
@@ -137,10 +148,10 @@ const styles = StyleSheet.create({
       alignItems: "center",
     },
     heading:{
-        fontSize:30,
-        fontWeight: "bold",
-        fontFamily:"Roboto",
-        color:"#388000"
+        fontSize:18,
+        // fontWeight: "bold",
+        fontFamily:"PoppinsMedium",
+        color:"white"
     },
     tinytext:{
         fontSize:12,
@@ -159,9 +170,11 @@ const styles = StyleSheet.create({
    
     TextInput: {
       height: 50,
+      width:200,
       flex: 1,
-      padding: 10,
+      // padding: 10,
       marginLeft: 20,
+      fontFamily:"PoppinsMedium"
     },
    
     forgot_button: {

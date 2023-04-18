@@ -14,6 +14,14 @@ const PlantScreen = () => {
         
     // }
     // const [state,dispatch]=useReducer(reducer,{count:0});
+  
+    const [loaded] = useFonts({
+      AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+    });
+  
+    if (!loaded) {
+      return null;
+    };
 
     return <View style={styles.viewStyle}>
       {console.log(plant)}
@@ -33,14 +41,15 @@ const PlantScreen = () => {
 const styles = StyleSheet.create({
 
   nameText:{
-    fontSize:28,
-    fontWeight: "bold",
-    // fontFamily: 'Alatsi-Regular'
+    fontSize:30,
+    // fontWeight: "bold",
+    fontFamily: 'AlatsiRegular'
 },
   headingText:{
     fontSize:18,
-    fontWeight: "bold",
-    // fontFamily: "Alatsi-Regular"
+    // fontWeight: "bold",
+    fontFamily: 'AlatsiRegular',
+    marginLeft:"2%",
   },
   image: {
     width:300,

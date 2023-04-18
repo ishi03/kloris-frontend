@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { useFonts } from 'expo-font';
 import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -62,16 +63,97 @@ const Login = (navigation) => {
 
   // };
   // console.log(state);
+  const [loaded] = useFonts({
+    AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+    PoppinsMedium :require('../../assets/fonts/Poppins-ExtraLight.ttf')
+  });
 
+  if (!loaded) {
+    return null;
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#fff",
+    //   alignItems: "center",
+      justifyContent: "center",
+    },
+    image: {
+        flex: 1,
+        justifyContent: "center"
+      },
+    content:{
+      alignItems: "center",
+    },
+    heading:{
+        fontSize:30,
+        // fontWeight: "bold",
+        fontFamily:"AlatsiRegular",
+        color:"#388000"
+    },
+    tinytext:{
+        fontSize:12,
+        marginBottom:"5%",
+        marginTop:"2%",
+        fontFamily:"AlatsiRegular"
+    },
+    inputView: {
+    //   backgroundColor: "#FFC0CB",
+      borderWidth:1,
+      borderRadius: 30,
+      width: "70%",
+      height: 45,
+      marginBottom: 20,
+      alignItems: "flex-start",
+
+    },
+   
+    TextInput: {
+      height: 50,
+      width: 250,
+      flex: 1,
+      padding: 10,
+      marginLeft: 20,
+      fontFamily: "PoppinsMedium",
+    },
+   
+    forgot_button: {
+      height: 30,
+      marginBottom: 30,
+      fontFamily: "PoppinsMedium",
+    },
+   
+    loginBtn: {
+      width: "50%",
+      borderRadius: 25,
+      height: 50,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 40,
+      backgroundColor: "#388000",
+    },
+
+    loginText:{
+      fontFamily: "PoppinsMedium",
+      color:"white",
+      fontSize:15,
+      // fontWeight: "bold"
+    },
+
+    errorMessage:{
+      color:"red"
+    }
+  });
   return (
     <View style={styles.container}>
       {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
       <ImageBackground source={require("../../assets/bg1.png")} resizeMode="cover" style={styles.image}>
       {/* <StatusBar style="auto" /> */}
       <View style={styles.content}>
-      <Text style={styles.heading}>LOGIN</Text>
+      <Text style={styles.heading}>Login</Text>
       {/* <Text style={styles.heading}>Account</Text> */}
-      <Text style={styles.tinytext}>New Here? Sign Up</Text>
+      <Text style={styles.tinytext}>New Here?  Sign Up</Text>
 
       {/* <View style={styles.fields}> */}
         {/* <View style={styles.inputView}>
@@ -86,7 +168,7 @@ const Login = (navigation) => {
         <View style={styles.inputView}>
             <TextInput
             style={styles.TextInput}
-            placeholder="Email"
+            placeholder="Username"
             placeholderTextColor="#003f5c"
             onChangeText={(email) => setEmail(email)}
             />
@@ -109,7 +191,7 @@ const Login = (navigation) => {
         {state.errorMessage?<Text style={styles.errorMessage}>{state.errorMessage}</Text>:null}
 
         <TouchableOpacity onPress={()=>signin({email, password})} style={styles.loginBtn}>
-            <Text style={styles.loginText}>LOGIN</Text>
+            <Text style={styles.loginText}>LOG  IN</Text>
         </TouchableOpacity>
         </View>
         </ImageBackground>
@@ -117,66 +199,7 @@ const Login = (navigation) => {
   );
 };
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#fff",
-    //   alignItems: "center",
-      justifyContent: "center",
-    },
-    image: {
-        flex: 1,
-        justifyContent: "center"
-      },
-    content:{
-      alignItems: "center",
-    },
-    heading:{
-        fontSize:30,
-        fontWeight: "bold",
-        fontFamily:"Roboto",
-        color:"#388000"
-    },
-    tinytext:{
-        fontSize:12,
-        marginBottom:"5%",
-        marginTop:"2%",
-    },
-    inputView: {
-    //   backgroundColor: "#FFC0CB",
-      borderWidth:1,
-      borderRadius: 30,
-      width: "70%",
-      height: 45,
-      marginBottom: 20,
-      alignItems: "flex-start",
-    },
-   
-    TextInput: {
-      height: 50,
-      flex: 1,
-      padding: 10,
-      marginLeft: 20,
-    },
-   
-    forgot_button: {
-      height: 30,
-      marginBottom: 30,
-    },
-   
-    loginBtn: {
-      width: "80%",
-      borderRadius: 25,
-      height: 50,
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop: 40,
-      backgroundColor: "#388000",
-    },
-    errorMessage:{
-      color:"red"
-    }
-  });
+
 
 export default Login;
 

@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReccCard from '../components/ReccCard';
 import axios from 'axios';
 import host from '../HostInfo';
+import { useFonts } from 'expo-font';
 import GardenCard from '../components/GardenCard';
 import plants from '../../dummyData/plants';
 
@@ -45,6 +46,14 @@ const ReccScreen = (props) => {
         recc();
       },[])
 
+      const [loaded] = useFonts({
+        Cardo :require('../../assets/fonts/Cardo-Regular.ttf')
+      });
+    
+      if (!loaded) {
+        return null;
+      };
+
     return <View style={styles.viewStyle}>
             <Text style={styles.greetingText}>Recommendations</Text>
          <View>
@@ -83,11 +92,23 @@ const styles = StyleSheet.create({
   },
   greetingText:{
     fontSize:28,
-    fontWeight: "bold"
+    // fontWeight: "bold"
+    fontFamily: "Cardo",
+    // alignSelf: 'flex-start',
+    color: "white",
+    width: "80%",
+    borderRadius: 15,
+    height: 45,
+    justifyContent: "center",
+    marginTop: 5,
+    marginBottom: 15,
+    paddingLeft:12,
+    backgroundColor: "#388000",
 },
 plantView:{
     flexDirection:"column",
     height: "80%",
+    
 }
 });
 

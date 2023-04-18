@@ -4,6 +4,8 @@ import Checkbox from "expo-checkbox";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import host from '../HostInfo';
+import { useFonts } from 'expo-font';
+
 
 const TaskCard = ({task}) => { // pass status as prop
 
@@ -40,6 +42,16 @@ const TaskCard = ({task}) => { // pass status as prop
     }
   }
 
+  const [loaded] = useFonts({
+    AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+    AileronThin :require('../../assets/fonts/Aileron-Thin.otf'),
+    OpenSans :require('../../assets/fonts/OpenSans-Regular.ttf')
+  });
+
+  if (!loaded) {
+    return null;
+  };
+
     return <View style={styles.cardView}>
         <Image style={styles.image} source={{uri: task.image}}/>
         {/* <Text>{task.imgSource}</Text> */}
@@ -64,11 +76,11 @@ const styles = StyleSheet.create({
   cardView:{
     flexDirection:"row",
     backgroundColor:"#D6E8C8",
-    marginTop:"5%",
+    marginTop:"2%",
     // marginLeft:"5%",
     // marginRight:"5%",
     borderRadius:15,
-    padding:"5%",
+    padding:"3%",
   },
   textView:{
     marginLeft:"10%",
@@ -77,15 +89,18 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 15,
+    fontFamily:"AileronThin"
   },
   taskText: {
     fontSize: 18,
+    fontFamily:"AlatsiRegular",
     marginBottom: "8%",
     marginTop:"2%",
-    fontWeight: "bold"
+    // fontWeight: "bold"
   },
   infoText: {
     fontSize: 10,
+    fontFamily:"OpenSans",
   },
   image: {
     width: 80,

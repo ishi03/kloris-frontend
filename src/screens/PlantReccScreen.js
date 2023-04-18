@@ -31,6 +31,16 @@ const PlantReccScreen = (props) => {
     useEffect(() => {
         getPlant1();
       }, []);
+
+      const [loaded] = useFonts({
+        AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+        OpenSans :require('../../assets/fonts/OpenSans-Regular.ttf')
+      });
+    
+      if (!loaded) {
+        return null;
+      };
+
     return <View style={styles.viewStyle}>
       {console.log(plant)}
       <View style={styles.upperView}>
@@ -41,11 +51,11 @@ const PlantReccScreen = (props) => {
       <View>
         <Text style={styles.headingText}>Information</Text>
         <View style={styles.cardView}>
-            <Text><Text style={{fontWeight:"bold"}}>Scientific Name:</Text> {plant1.sci_name} {"\n"}
-            <Text style={{fontWeight:"bold"}}>Height:</Text> {plant1.height} {"\n"}
-            <Text style={{fontWeight:"bold"}}>Spread:</Text> {plant1.spread} {"\n"}
-            <Text style={{fontWeight:"bold"}}>Floweing Time:</Text> {plant1.f_time} {"\n"}
-            <Text style={{fontWeight:"bold"}}>Soil PH:</Text> {plant1.soilph} {"\n"}
+            <Text style={styles.infoText}><Text style={{fontFamily: 'AlatsiRegular',fontSize:16}}>Scientific Name :</Text> {plant1.sci_name} {"\n"}
+            <Text style={{fontFamily: 'AlatsiRegular',fontSize:16}}>Height (in feet) :</Text> {plant1.height} {"\n"}
+            <Text style={{fontFamily: 'AlatsiRegular',fontSize:16}}>Spread (in feet) :</Text> {plant1.spread} {"\n"}
+            <Text style={{fontFamily: 'AlatsiRegular',fontSize:16}}>Flowering Time :</Text> {plant1.f_time} {"\n"}
+            <Text style={{fontFamily: 'AlatsiRegular',fontSize:16}}>Soil pH :</Text> {plant1.soilph} {"\n"}
             </Text>
 
         </View>
@@ -58,19 +68,26 @@ const styles = StyleSheet.create({
     cardView:{
         flexDirection:"row",
         backgroundColor:"#D6E8C8",
-        marginTop:"5%",
+        marginTop:"2%",
         borderRadius:15,
-        padding:"5%",
+        padding:"3%",
       },
   nameText:{
     fontSize:28,
-    fontWeight: "bold",
-    // fontFamily: 'Alatsi-Regular'
+    // fontWeight: "bold",
+    fontFamily: 'AlatsiRegular',
 },
   headingText:{
-    fontSize:18,
-    fontWeight: "bold",
-    // fontFamily: "Alatsi-Regular"
+    fontSize:20,
+    fontFamily: "AlatsiRegular",
+    marginTop:"2%",
+    marginLeft:"2%"
+  },
+  infoText:{
+    fontSize:15,
+    fontFamily: "OpenSans",
+    // marginTop:"2%",
+    // marginLeft:"2%"
   },
   image: {
     width:300,
