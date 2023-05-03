@@ -27,11 +27,36 @@ export default function CamScreen() {
       setImage(result.uri);
     }
 
-    await toServer({
-      type: result.type,
-      base64: result.base64,
-      uri: result.uri,
-    });
+    // await toServer({
+    //   type: result.type,
+    //   base64: result.base64,
+    //   uri: result.uri,
+    // });
+
+     // ImagePicker saves the taken photo to disk and returns a local URI to it
+     let localUri = result.uri;
+     let filename = localUri.split('/').pop();
+
+     // Infer the type of the image
+     let match = /\.(\w+)$/.exec(filename);
+     let type = match ? `image/${match[1]}` : `image`;
+
+     console.log("--->"+result.uri);
+      setImage(result.uri);
+     // Upload the image using the fetch and FormData APIs
+     let formData = new FormData();
+     // Assume "photo" is the name of the form field the server expects
+     formData.append('photo', { uri: localUri, name: filename, type });
+
+      const response= await fetch(host+`/predict`, {
+       method: 'GET',
+       body: formData,
+       header: {
+         'content-type': 'multipart/form-data',
+       },
+     });
+
+     console.log(response);
 
   };
 
@@ -58,39 +83,43 @@ export default function CamScreen() {
      if (result.cancelled) {
        return;
      }
-
      
-      // await toServer({
-      //   type: result.type,
-      //   base64: result.base64,
-      //   uri: result.uri,
-      // });
-    
-     
-    //  // ImagePicker saves the taken photo to disk and returns a local URI to it
-    //  let localUri = result.uri;
-    //  let filename = localUri.split('/').pop();
+     // ImagePicker saves the taken photo to disk and returns a local URI to it
+     let localUri = result.uri;
+     let filename = localUri.split('/').pop();
 
-    //  // Infer the type of the image
-    //  let match = /\.(\w+)$/.exec(filename);
-    //  let type = match ? `image/${match[1]}` : `image`;
+     // Infer the type of the image
+     let match = /\.(\w+)$/.exec(filename);
+     let type = match ? `image/${match[1]}` : `image`;
 
-    //  console.log("--->"+result.uri);
-    //   setImage(result.uri);
-    //  // Upload the image using the fetch and FormData APIs
-    //  let formData = new FormData();
-    //  // Assume "photo" is the name of the form field the server expects
-    //  formData.append('photo', { uri: localUri, name: filename, type });
+     console.log("--->"+result.uri);
+      setImage(result.uri);
+     // Upload the image using the fetch and FormData APIs
+     let formData = new FormData();
+     // Assume "photo" is the name of the form field the server expects
+     formData.append('photo', { uri: localUri, name: filename, type });
 
-    //   const response= await fetch(host+`/predict`, {
-    //    method: 'POST',
-    //    body: formData,
-    //    header: {
-    //      'content-type': 'multipart/form-data',
-    //    },
-    //  });
+      const response= await fetch(host+`/predict`, {
+       method: 'POST',
+       body: formData,
+       header: {
+         'content-type': 'multipart/form-data',
+       },
+     });
+
+     console.log(response);
+
+     const config={
+      header: {
+        'content-type': 'multipart/form-data',
+      },
+     }
+     const response1  = await axios.post(host+`/predict`,config);
+
 
     //  console.log(response);
+     console.log("r1)",response1.data);
+
 }
 
  const toServer = async (mediaFile) => {
