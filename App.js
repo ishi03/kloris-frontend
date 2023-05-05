@@ -21,6 +21,7 @@ import ExReccScreen from './src/screens/ExReccSystem';
 import ReccScreen from './src/screens/ReccsScreen';
 import PlantReccScreen from './src/screens/PlantReccScreen';
 import Icon from 'react-native-vector-icons/Octicons';
+import { TouchableOpacity, Text } from 'react-native';
 
 const navigator1 = createStackNavigator(
   {
@@ -67,6 +68,11 @@ const navigator = createSwitchNavigator(
           garden: GardenScreen,
         }),
           navigationOptions:{
+            // headerRight: ()=>(
+            //   <TouchableOpacity>
+            //    <Text>Xxxx</Text>
+            //   </TouchableOpacity>
+            // ),
             tabBarLabel: 'Tasks',
             tabBarIcon: ({tintColor})=>(  
               <Icon name="tasklist" color={tintColor} size={21}/>  
