@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 nameText:{
   fontSize:28,
   fontWeight: "bold",
-  fontFamily: 'Alatsi-Regular'
+  fontFamily: 'AlatsiRegular'
 },
   headingText:{
     fontSize:18,
