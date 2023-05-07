@@ -57,6 +57,22 @@ const TaskScreen = (props) => {
       console.log(response.data)
       }
 
+      // var CronJob = require('cron').CronJob;
+      // var job = new CronJob(
+      //     '00 00 00 * * *',
+      //     function() {
+      //         console.log('You will see this message every midnight');
+      //         updateTask();
+      //     },
+      //     null,
+      //     true,
+      // );
+      const schedule = require('node-schedule');
+      // console.log(schedule);
+      const job = schedule.scheduleJob('00 00 00 * * *', function(){
+        console.log('You will see this message every midnight');
+              updateTask();
+      });
     //   const midnight=() => {
     //     const listener = Midnight.addListener(() => {
     //       updateTask();
@@ -67,7 +83,7 @@ const TaskScreen = (props) => {
     useEffect(() => {
         // getTasks1();
         getPlants();
-        // updateTask();
+        updateTask();
       }, []);
 
       const [loaded] = useFonts({
