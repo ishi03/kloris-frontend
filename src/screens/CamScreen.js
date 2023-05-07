@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import { Button, Image, View, Platform, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FS from 'expo-file-system';
 import axios from "axios";
 import host from '../HostInfo';
 
-export default function CamScreen() {
+export default function CamScreen({navigation}) {
+
+  const leafimg=require("../../assets/leaf.png")
   const [image, setImage] = useState(null);
+  const [pred, setPred] = useState(null);
   // const [camerPermission, setCameraPermission] = useState(false);
 
   const pickImage = async () => {
@@ -15,48 +18,19 @@ export default function CamScreen() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       base64: true,
       quality: 1,
     });
 
     // console.log(result);
 
-    if (!result.canceled) {
-        console.log("--->"+result.uri);
-      setImage(result.uri);
+    if (result.cancelled) {
+      return;
     }
 
-    // await toServer({
-    //   type: result.type,
-    //   base64: result.base64,
-    //   uri: result.uri,
-    // });
-
-     // ImagePicker saves the taken photo to disk and returns a local URI to it
-     let localUri = result.uri;
-     let filename = localUri.split('/').pop();
-
-     // Infer the type of the image
-     let match = /\.(\w+)$/.exec(filename);
-     let type = match ? `image/${match[1]}` : `image`;
-
-     console.log("--->"+result.uri);
-      setImage(result.uri);
-     // Upload the image using the fetch and FormData APIs
-     let formData = new FormData();
-     // Assume "photo" is the name of the form field the server expects
-     formData.append('photo', { uri: localUri, name: filename, type });
-
-      const response= await fetch(host+`/predict`, {
-       method: 'GET',
-       body: formData,
-       header: {
-         'content-type': 'multipart/form-data',
-       },
-     });
-
-     console.log(response);
+    let localUri = result.uri;
+    await toServer(result.uri);
 
   };
 
@@ -75,7 +49,7 @@ export default function CamScreen() {
     }
     let result = await ImagePicker.launchCameraAsync({
        allowsEditing: true,
-       aspect: [4, 3],
+       aspect: [1, 1],
       //  mediaTypes: ImagePicker.MediaTypeOptions.All,
       base64: true,
      });
@@ -84,16 +58,20 @@ export default function CamScreen() {
        return;
      }
      
-     // ImagePicker saves the taken photo to disk and returns a local URI to it
-     let localUri = result.uri;
+    await toServer(result.uri);
+
+}
+
+ const toServer = async (result_uri) => {
+  let localUri = result_uri;
      let filename = localUri.split('/').pop();
 
      // Infer the type of the image
      let match = /\.(\w+)$/.exec(filename);
      let type = match ? `image/${match[1]}` : `image`;
 
-     console.log("--->"+result.uri);
-      setImage(result.uri);
+     console.log("--->"+result_uri);
+      setImage(result_uri);
      // Upload the image using the fetch and FormData APIs
      let formData = new FormData();
      // Assume "photo" is the name of the form field the server expects
@@ -106,48 +84,64 @@ export default function CamScreen() {
          'content-type': 'multipart/form-data',
        },
      });
+     const x=await response.json();
 
-     console.log(response);
-
-     const config={
-      header: {
-        'content-type': 'multipart/form-data',
-      },
-     }
-     const response1  = await axios.post(host+`/predict`,config);
-
-
-    //  console.log(response);
-     console.log("r1)",response1.data);
-
-}
-
- const toServer = async (mediaFile) => {
-  let type = mediaFile.type;
-  let url = "";
-  let content_type = "";
-  // type === "image"
-  //   ? ((route = "/image"), (content_type = "image/jpeg"))
-  //   : ((route = "/video"), (content_type = "video/mp4"));
-  // url = schema + host + ":" + port + route;
-  url = host + `/predict`
-  let response = await FS.uploadAsync(url, mediaFile.uri, {
-    headers: {
-      "content-type": "image/jpeg",
-    },
-    httpMethod: "POST",
-    uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
-  });
-
-  console.log(response.headers);
-  console.log(response.body);
+     console.log("r2)",x["prediction"]);
+     setPred(x["prediction"]);
 };
+ 
+// useEffect(() => {
+//   const unsubscribe = navigation.addListener('focus', () => {
+//     // The screen is focused
+//     setImage(null);
+//     setPred(null);
+//   });
+
+//   // Return the function to unsubscribe from the event so it gets removed on unmount
+//   return ()=>{unsubscribe};
+
+// }, [navigation]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      <Button title="Take a photo" onPress={uploadImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:"#fff" }}>
+      {/* <Button title="Pick an image from camera roll" onPress={pickImage} />
+      <Button title="Take a photo" onPress={uploadImage} /> */}
+      {/* {image && <Image source={{ uri: image }} style={styles.img} />} */}
+      {image? <Image source={{ uri: image }} style={styles.img} /> : <Image source={ leafimg } style={styles.img} />}
+      {pred? <Text style={styles.result} >{pred}</Text>: image? <Text style={styles.result} > loading... </Text>:<Text style={styles.result} > </Text>}
+      
+      <TouchableOpacity onPress={pickImage} style={styles.loginBtn} >
+        <Text style={styles.heading}>Pick photo from camera roll</Text>
+      </TouchableOpacity>
+      <Text>OR</Text>
+      <TouchableOpacity onPress={uploadImage} style={styles.loginBtn} >
+        <Text style={styles.heading}>Take a photo</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  loginBtn: {
+    width: "70%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    backgroundColor: "#388000",
+  },
+  heading:{
+    fontSize:18,
+    // fontWeight: "bold",
+    fontFamily:"PoppinsMedium",
+    color:"white"
+},
+  result:{
+
+  },
+  img:{
+    width: 200,
+    height: 200
+  }
+})

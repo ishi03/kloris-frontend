@@ -22,6 +22,7 @@ import ReccScreen from './src/screens/ReccsScreen';
 import PlantReccScreen from './src/screens/PlantReccScreen';
 import Icon from 'react-native-vector-icons/Octicons';
 import { TouchableOpacity, Text } from 'react-native';
+import Schedule from './src/components/Schedule';
 
 const navigator1 = createStackNavigator(
   {
@@ -66,6 +67,7 @@ const navigator = createSwitchNavigator(
           Task: TaskScreen,
           Plantprofile: PlantScreen,
           garden: GardenScreen,
+          Schedule: Schedule,
         }),
           navigationOptions:{
             // headerRight: ()=>(

@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   commentHeading:{
     marginTop:"5%",
-    // fontWeight: "bold",
+    fontWeight: "bold",
     marginLeft:"2%",
     fontFamily:"OpenSans",
   },

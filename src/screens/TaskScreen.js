@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View,Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import TaskCard from '../components/TaskCard';
 import PlantImg from '../components/PlantImg';
@@ -9,25 +9,28 @@ import { useFonts } from 'expo-font';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import host from '../HostInfo';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import DatePicker from '../components/DatePicker';
+
+
 // import Midnight from 'react-native-midnight'
 // create add custom task space; add date and username
 const TaskScreen = (props) => {
-    const [tasks1,setTasks1]=useState([]);
+    // const [tasks1,setTasks1]=useState([]);
     const [plants1,setPlants1]=useState([]);
     // const [name, setName]=useState("");
 
-    const getTasks1= async()=>{
-        const config = {
-            headers:{
-              'x-access-token':await AsyncStorage.getItem('token')
-            }
-          };
-        const response  = await axios.get(host+`/user_todos`,config);
-        setTasks1(response.data.tasks);
-        console.log("----")
-        console.log(tasks1);
-        // setName(tasks1[0].username);
-    }
+    // const getTasks1= async()=>{
+    //     const config = {
+    //         headers:{
+    //           'x-access-token':await AsyncStorage.getItem('token')
+    //         }
+    //       };
+    //     const response  = await axios.get(host+`/user_todos`,config);
+    //     setTasks1(response.data.tasks);
+    //     console.log("----")
+    //     console.log(tasks1);
+    //     // setName(tasks1[0].username);
+    // }
 
     const getPlants= async()=>{
         const t= await AsyncStorage.getItem('token')
@@ -62,7 +65,7 @@ const TaskScreen = (props) => {
     //   }
 
     useEffect(() => {
-        getTasks1();
+        // getTasks1();
         getPlants();
         // updateTask();
       }, []);
@@ -77,6 +80,7 @@ const TaskScreen = (props) => {
       };
 
     return (
+      <View style={{backgroundColor: 'white'}}>
         <View style={styles.viewStyle}>
         <Text style={styles.greetingText}>Welcome back!</Text>
         <View>
@@ -101,8 +105,9 @@ const TaskScreen = (props) => {
 
 
         <View>
-            <Text style={styles.headingText}>Tasks</Text>
-                <View style={styles.taskView}>
+            {/* <Text style={styles.headingText}>Tasks</Text> */}
+            <DatePicker/>
+                {/* <View style={styles.taskView}>
                 <FlatList
                 horizontal={false}
                 showsVerticalScrollIndicator
@@ -114,10 +119,12 @@ const TaskScreen = (props) => {
                         </View>
                 }}
                 />
-                </View>
+                </View> */}
         </View>
 
-    </View>)
+    </View>
+    </View>
+    )
 };
 
 const styles = StyleSheet.create({
@@ -125,8 +132,6 @@ const styles = StyleSheet.create({
         marginLeft:"5%",
         marginRight:"5%",
         height:"100%",
-        // backgroundColor: 'white'
-        // marginBottom:"5%",
       },
     greetingText:{
         fontSize:28,
