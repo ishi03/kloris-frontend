@@ -4,28 +4,20 @@ import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 
-  const data = [
-    { label: 'Medicinal Herb', value: 'Medicinal Herb' },
-    { label: 'Vegetable', value: 'Vegetable' },
-    { label: 'Cut Flower', value: 'Cut Flower' },
-    { label: 'Any', value: '' },
+  // const data = [
+  //   { label: 'Medicinal Herb', value: 'Medicinal Herb' },
+  //   { label: 'Vegetable', value: 'Vegetable' },
+  //   { label: 'Cut Flower', value: 'Cut Flower' },
+  //   { label: 'Any', value: '' },
 
-  ];
+  // ];
 
   const DropdownComponent = (props) => {
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
+    const data = props.data;
+    // console.log("pd)",props.data);
 
-    // const renderLabel = () => {
-    //   if (value || isFocus) {
-    //     return (
-    //       <Text style={[styles.label, isFocus && { color:"#388000" }]}>
-    //         select use
-    //       </Text>
-    //     );
-    //   }
-    //   return null;
-    // };
     const [loaded] = useFonts({
       AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
       PoppinsMedium :require('../../assets/fonts/Poppins-ExtraLight.ttf')
@@ -50,7 +42,7 @@ import { useFonts } from 'expo-font';
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select Use' : '...'}
+          placeholder={!isFocus ? props.placeholder : '...'}
           searchPlaceholder="Search.."
           placeholderTextColor="#003f5c"
           value={value}
@@ -79,8 +71,10 @@ import { useFonts } from 'expo-font';
   const styles = StyleSheet.create({
     container: {
       backgroundColor: 'white',
-      padding: 16,
-      width: "80%"
+      paddingLeft: 16,
+      paddingRight:16,
+      width: "80%",
+      marginBottom: 20,
     },
     dropdown: {
       height: 50,
@@ -104,7 +98,9 @@ import { useFonts } from 'expo-font';
       fontSize: 14,
     },
     placeholderStyle: {
-      fontSize: 16,
+      fontSize: 15,
+      fontFamily:"PoppinsMedium",
+      color: "#003f5c"
     },
     selectedTextStyle: {
       fontSize: 16,

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useFonts } from 'expo-font';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import host from '../HostInfo';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TaskCard from './TaskCard';
 import Calendar from './Calendar';
 import moment from 'moment';
@@ -31,15 +31,47 @@ export default function DatePicker() {
   }
 
   const getTasks1= async()=>{
-        const config = {
+        
+        if(selectedDate==today){
+          console.log("today is selected!")
+          const config = {
             headers:{
               'x-access-token':await AsyncStorage.getItem('token')
             }
           };
-        const response  = await axios.get(host+`/user_todos`,config);
-        setTasks1(response.data.tasks);
-        console.log("----")
-        console.log(tasks1);
+          const response  = await axios.get(host+`/user_todos`,config);
+          setTasks1(response.data.tasks);
+          console.log("----")
+          console.log(tasks1);
+        }
+        else{
+          console.log("not today")
+          const t= await AsyncStorage.getItem('token')
+          const AuthStr='Bearer '.concat(t)
+          const options = {
+            headers: {
+              'x-access-token':await AsyncStorage.getItem('token'),
+              'Content-Type': 'multipart/form-data',
+              'Authorization': AuthStr
+          }
+          };
+          var bodyFormData = new FormData();
+          bodyFormData.append('ipdate', selectedDate); 
+          const response = await axios.post(host+`/get_tasksByDate`,bodyFormData,options); 
+          console.log(response.data.tasks);
+          console.log(response.data.tasks.length);
+          if(response.data.tasks.length==0){
+            console.log("no tasks");
+            setTasks1([]);
+          }
+          else{
+            setTasks1(response.data.tasks);
+          }
+          // const response  = await axios.get(host+`/user_todos`,config);
+          // setTasks1(response.data.tasks);
+          // console.log("----")
+          // console.log(tasks1);
+        }
         // setName(tasks1[0].username);
     }
   const updateTask=async()=>{
@@ -59,12 +91,13 @@ export default function DatePicker() {
     } else {
       afterSelectDate();
     }
+    getTasks1();
   }, [selectedDate]);
 
-  useEffect(() => {
-    getTasks1();
-    // updateTask();
-  }, []);
+  // useEffect(() => {
+  //   getTasks1();
+  //   // updateTask();
+  // }, []);
 
   const [loaded] = useFonts({
     AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
@@ -83,8 +116,13 @@ export default function DatePicker() {
       <Calendar onSelectDate={onSelectDate} selected={selectedDate} />
       <StatusBar style="auto" />
     </View>
-
+    
   <View>
+      {tasks1.length==0?<View style={styles.notask}>
+        <Icon name="clipboard-check-outline" size={150} style={styles.icon}/>
+        <Text style={styles.tinytext}>No Tasks for this day</Text>
+      </View>:
+      <View style={{height:0.5}}/>}
       <View style={styles.taskView}>
       <FlatList
       horizontal={false}
@@ -93,7 +131,7 @@ export default function DatePicker() {
       keyExtractor={task=>task._id}
       renderItem={({item})=>{
           return <View>
-              <TaskCard task={item}/>
+              <TaskCard task={item} disabled={selectedDate==today?false:true}/>
               </View>
       }}
       />
@@ -150,6 +188,20 @@ gardenView:{
 },
 taskView:{
     flexDirection:"column",
-    height: "80%",
+    height: "69.5%",
+},
+notask:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop:"5%"
+},
+tinytext:{
+  fontSize:18,
+  fontFamily:"AlatsiRegular",
+  color:"#D6E8C8",
+  marginLeft:"2%"
+},
+icon:{
+  color:"#D6E8C8",
 }
 });

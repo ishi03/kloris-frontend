@@ -16,6 +16,25 @@ const NewReccScreen = ({navigation}) => {
     const [spread, setSpread]=useState("");
     const [location, setLocation] = useState(null);
     const [use, setUse]=useState(null);
+    const [sunlight, setSunlight]=useState("");
+
+    const useopn = [
+      { label: 'Medicinal Herb', value: 'Medicinal Herb' },
+      { label: 'Vegetable', value: 'Vegetable' },
+      { label: 'Cut Flower', value: 'Cut Flower' },
+      { label: 'Any', value: '' },
+  
+    ];
+
+    const sunlightopn = [
+      { label: 'Full Sun', value: 'Full Sun' },
+      { label: 'Full Sun to Partial Shade', value: 'Full Sun to Partial Shade' },
+      { label: 'Partial Shade', value: 'Partial Shade or Dappled Shade' },
+      { label: 'Partial Shade to Full Shade', value: 'Partial Shade to Full Shade' },
+      { label: 'Partial Shade to Full Shade', value: 'Partial Shade to Full Shade' },
+      { label: 'Any', value: '' },
+  
+    ];
 
     const startWatching = async () => {
         try {
@@ -41,7 +60,7 @@ const NewReccScreen = ({navigation}) => {
       }
     }
 
-    const recc = async ({ht, spread, use}) =>{
+    const recc = async ({ht, spread, use, sunlight}) =>{
       try{
         const t= await AsyncStorage.getItem('token')
         console.log(t)
@@ -57,7 +76,7 @@ const NewReccScreen = ({navigation}) => {
         var lat=0;
         var long=0;
         console.log(ht, spread, use, location.coords.latitude, location.coords.longitude);
-        bodyFormData.append('light', 'Full Sun');
+        bodyFormData.append('light', sunlight);
         bodyFormData.append('height', ht); 
         bodyFormData.append('spread', spread); 
         bodyFormData.append('usee', use);
@@ -76,20 +95,42 @@ const NewReccScreen = ({navigation}) => {
         setHt("");
         setSpread("");
         setUse(null);
+        setSunlight(null);
         navigation.navigate({routeName:'recommendations',
         params:{
           ht:ht,
           spread:spread,
           usee:use,
+          sunlight:sunlight,
           lat:lat,
           long:long
-        }})
+           }})
 
       }
       catch(e){
         console.log(e);
       }
     }
+
+    const newrecc = async () =>{
+      try{
+        const t= await AsyncStorage.getItem('token')
+        const AuthStr='Bearer '.concat(t)
+        const options = {
+          headers: {
+            'x-access-token':await AsyncStorage.getItem('token'),
+            'Content-Type': 'multipart/form-data',
+            'Authorization': AuthStr
+        }
+        };
+        navigation.navigate({routeName:'newRecommendations'})
+
+      }
+      catch(e){
+        console.log(e);
+      }
+    }
+
 
     useEffect(()=>{
       startWatching();
@@ -107,6 +148,13 @@ const NewReccScreen = ({navigation}) => {
     
     return <View style={styles.container} >
         {err? <Text>Please enable location services</Text>:null}
+
+        <View style={styles.promptView}>
+          <Text style={styles.tinytext}>Don't have any plants yet?</Text>
+          <Text style={styles.tinytext}>Get Recommendations by filling up the form below</Text>
+
+        </View>
+
         <View style={styles.inputView}>
             <TextInput
             style={styles.TextInput}
@@ -126,9 +174,25 @@ const NewReccScreen = ({navigation}) => {
             value={spread}
             />
         </View>
-        <DropdownComponent addUse={setUse}/>
-        <TouchableOpacity onPress={()=>recc({ht, spread, use})} style={styles.loginBtn} >
+
+        <DropdownComponent addUse={setUse} data={useopn} placeholder='Select Use'/>
+
+        <DropdownComponent addUse={setSunlight} data={sunlightopn} placeholder='Sunlight'/>
+
+
+        <TouchableOpacity onPress={()=>recc({ht, spread, use, sunlight})} style={styles.loginBtn} >
         <Text style={styles.heading}>Get Recommendations</Text>
+        </TouchableOpacity>
+
+        <View style={{flexDirection: 'row', alignItems: 'center', width:"85%"}}>
+          <View style={{flex: 1, height: 1, backgroundColor: '#D3DBDF'}} />
+            <Text style={styles.or}>OR</Text>
+          <View style={{flex: 1, height: 1, backgroundColor: '#D3DBDF'}} />
+        </View>
+
+        <Text style={styles.tinytext}>Get recommendations based on existing plants</Text>
+        <TouchableOpacity onPress={()=>newrecc()} style={styles.loginBtn} >
+        <Text style={styles.heading}> Lets Go ! </Text>
         </TouchableOpacity>
     </View>
 }
@@ -140,23 +204,21 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
     },
-    image: {
-        flex: 1,
-        justifyContent: "center"
-      },
     content:{
       alignItems: "center",
     },
+    tinytext:{
+      fontSize:12,
+      // marginBottom:"5%",
+      // marginTop:"2%",
+      fontFamily:"AlatsiRegular",
+      color:"#388000"
+  },
     heading:{
         fontSize:18,
         // fontWeight: "bold",
         fontFamily:"PoppinsMedium",
         color:"white"
-    },
-    tinytext:{
-        fontSize:12,
-        marginBottom:"5%",
-        marginTop:"2%",
     },
     inputView: {
     //   backgroundColor: "#FFC0CB",
@@ -167,6 +229,14 @@ const styles = StyleSheet.create({
       marginBottom: 20,
       alignItems: "flex-start",
     },
+    promptView: {
+        // backgroundColor: "#FFC0CB",
+        width: "70%",
+        height: 55,
+        paddingBottom:10,
+        marginBottom:15,
+        alignItems: "center",
+      },
    
     TextInput: {
       height: 50,
@@ -177,22 +247,35 @@ const styles = StyleSheet.create({
       fontFamily:"PoppinsMedium"
     },
    
-    forgot_button: {
-      height: 30,
-      marginBottom: 30,
-    },
-   
     loginBtn: {
       width: "70%",
       borderRadius: 25,
       height: 50,
       alignItems: "center",
       justifyContent: "center",
-      marginTop: 40,
+      marginTop: 20,
+      backgroundColor: "#388000",
+    },
+    Prompt: {
+      width: "70%",
+      borderRadius: 50,
+      height: 75,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 20,
+      marginBottom: 50,
       backgroundColor: "#388000",
     },
     errorMessage:{
       color:"red"
+    }, 
+    or:{width:50, 
+      textAlign:'center', 
+      fontSize:12, 
+      fontFamily:"AlatsiRegular",
+      color:"black",
+      marginTop: 15,
+      marginBottom: 15, 
     }
   });
 

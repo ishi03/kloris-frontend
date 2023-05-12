@@ -3,11 +3,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { StyleSheet } from 'react-native'
 import { TouchableOpacity, Text } from 'react-native'
 
-const CheckBox = ({ selected, onPress, style, textStyle, size = 30, color = '#211f30', text = '', ...props}) => (
-    <TouchableOpacity style={[styles.checkBox, style]} onPress={onPress} {...props}>
+const CheckBox = ({ selected, onPress, disabled, style, textStyle, size = 30, text = '', ...props}) => (
+    <TouchableOpacity style={[styles.checkBox, style]} onPress={onPress} disabled={disabled} {...props}>
         <Icon
             size={size}
-            color={color}
+            color='#211f30'
             name={ selected ? 'check-box' : 'check-box-outline-blank'}
         />
 

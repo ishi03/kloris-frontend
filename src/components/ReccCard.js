@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
     backgroundColor:"#D6E8C8",
     borderColor:"black",
     border:"1px",
-    marginTop:"5%",
+    marginBottom:12,
     // marginLeft:"1%",
     marginRight:"3%",
     borderRadius:15,
-    padding:"2%",
+    padding:"5%",
   },
   textView:{
     marginLeft:"10%",

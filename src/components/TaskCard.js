@@ -7,7 +7,7 @@ import host from '../HostInfo';
 import { useFonts } from 'expo-font';
 
 
-const TaskCard = ({task}) => { // pass status as prop
+const TaskCard = ({task, disabled}) => { // pass status as prop
 
   const [isChecked, setChecked] = useState(task.status);
   console.log("from db ", task.status);
@@ -30,7 +30,6 @@ const TaskCard = ({task}) => { // pass status as prop
   }
 
   const checkHandler=()=>{
-    // setChecked(!isChecked);
     console.log(isChecked);
     if(isChecked===true){
       uncheckTask();
@@ -54,7 +53,6 @@ const TaskCard = ({task}) => { // pass status as prop
 
     return <View style={styles.cardView}>
         <Image style={styles.image} source={{uri: task.image}}/>
-        {/* <Text>{task.imgSource}</Text> */}
         <View style={styles.textView}>
         <Text style={styles.nameText}>{task.plant_name}</Text>
         <Text style={styles.taskText}>{task.task}</Text>
@@ -66,6 +64,7 @@ const TaskCard = ({task}) => { // pass status as prop
         style={styles.checkbox}
         color="#388000"
         value={isChecked} // if true or false
+        disabled={disabled}
         onValueChange={checkHandler}
          />
         </View>

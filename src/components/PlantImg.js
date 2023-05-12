@@ -4,6 +4,8 @@ import { useFonts } from 'expo-font';
 
 
 const PlantImg = ({plant}) => {
+
+const plantplaceholder=require("../../assets/plantplaceholder.png")
   
   const [loaded] = useFonts({
     AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
@@ -14,10 +16,7 @@ const PlantImg = ({plant}) => {
     return null;
   };
     return <View>
-        <Image 
-                source={{uri:plant.image}}
-                style={styles.image}
-            />
+        {plant.image?<Image source={{uri:plant.image}}  style={styles.image}/>:<Image source={plantplaceholder}  style={styles.image} />}
         <Text style={styles.name}>{plant.plant_name}</Text>
     </View>
 };

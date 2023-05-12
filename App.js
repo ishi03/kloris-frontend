@@ -19,10 +19,11 @@ import NewReccScreen from './src/screens/NewReccScreen';
 import LandingReccScreen from './src/screens/LandingReccScreen';
 import ExReccScreen from './src/screens/ExReccSystem';
 import ReccScreen from './src/screens/ReccsScreen';
+import ReccsScreenTwo from './src/screens/ReccsScreenTwo';
 import PlantReccScreen from './src/screens/PlantReccScreen';
+import Search from './src/components/Search';
 import Icon from 'react-native-vector-icons/Octicons';
 import { TouchableOpacity, Text } from 'react-native';
-import Schedule from './src/components/Schedule';
 
 const navigator1 = createStackNavigator(
   {
@@ -52,7 +53,7 @@ const navigator = createSwitchNavigator(
     }),
     mainFlow:createMaterialBottomTabNavigator({
       Home: {
-        screen: CamScreen, // here the screen is the HomePage
+        screen: Search, //CamScreen, 
         navigationOptions: {
         tabBarLabel: "Homee", // lablel of the tab
         tabBarIcon: ({tintColor}) => { // Setting icon of the tab
@@ -67,7 +68,6 @@ const navigator = createSwitchNavigator(
           Task: TaskScreen,
           Plantprofile: PlantScreen,
           garden: GardenScreen,
-          Schedule: Schedule,
         }),
           navigationOptions:{
             // headerRight: ()=>(
@@ -87,6 +87,7 @@ const navigator = createSwitchNavigator(
           landingRecc: PlantScreen,
           exRecc: GardenScreen,
           recommendations: ReccScreen,
+          newRecommendations : ReccsScreenTwo,
           plantRecc: PlantReccScreen,
         }),
           navigationOptions:{

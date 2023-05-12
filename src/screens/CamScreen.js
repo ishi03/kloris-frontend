@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FS from 'expo-file-system';
 import axios from "axios";
 import host from '../HostInfo';
+import { useFonts } from 'expo-font';
 
 export default function CamScreen({navigation}) {
 
@@ -90,17 +91,26 @@ export default function CamScreen({navigation}) {
      setPred(x["prediction"]);
 };
  
-// useEffect(() => {
-//   const unsubscribe = navigation.addListener('focus', () => {
-//     // The screen is focused
-//     setImage(null);
-//     setPred(null);
-//   });
+useEffect(() => {
+  const unsubscribe = navigation.addListener('didFocus', () => {
+    // The screen is focused
+    setImage(null);
+    setPred(null);
+  });
 
-//   // Return the function to unsubscribe from the event so it gets removed on unmount
-//   return ()=>{unsubscribe};
+  // Return the function to unsubscribe from the event so it gets removed on unmount
+  return ()=>{unsubscribe};
 
-// }, [navigation]);
+}, [navigation]);
+
+const [loaded] = useFonts({
+  AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
+  Cardo :require('../../assets/fonts/Cardo-Regular.ttf')
+});
+
+if (!loaded) {
+  return null;
+};
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:"#fff" }}>
@@ -108,12 +118,12 @@ export default function CamScreen({navigation}) {
       <Button title="Take a photo" onPress={uploadImage} /> */}
       {/* {image && <Image source={{ uri: image }} style={styles.img} />} */}
       {image? <Image source={{ uri: image }} style={styles.img} /> : <Image source={ leafimg } style={styles.img} />}
-      {pred? <Text style={styles.result} >{pred}</Text>: image? <Text style={styles.result} > loading... </Text>:<Text style={styles.result} > </Text>}
+      {pred? <Text style={styles.result}>looks like: {pred}</Text>: image? <Text style={styles.result} > loading... </Text>:<Text style={styles.result} > </Text>}
       
       <TouchableOpacity onPress={pickImage} style={styles.loginBtn} >
         <Text style={styles.heading}>Pick photo from camera roll</Text>
       </TouchableOpacity>
-      <Text>OR</Text>
+      <Text style={styles.or}>OR</Text>
       <TouchableOpacity onPress={uploadImage} style={styles.loginBtn} >
         <Text style={styles.heading}>Take a photo</Text>
       </TouchableOpacity>
@@ -128,7 +138,8 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 10,
+    marginBottom:10,
     backgroundColor: "#388000",
   },
   heading:{
@@ -138,10 +149,17 @@ const styles = StyleSheet.create({
     color:"white"
 },
   result:{
-
+    marginTop:20,
+    marginBottom:20,
+    fontFamily: "AlatsiRegular",
+    fontSize: 18,
   },
   img:{
     width: 200,
     height: 200
+  },
+  or:{
+    fontFamily: "AlatsiRegular",
+    fontSize: 18,
   }
 })

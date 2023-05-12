@@ -6,12 +6,11 @@ import axios from 'axios';
 import host from '../HostInfo';
 import { useFonts } from 'expo-font';
 import GardenCard from '../components/GardenCard';
-import plants from '../../dummyData/plants';
 
-const ReccScreen = (props) => {
+// import plants from '../../dummyData/plants';
+
+const ReccsScreenTwo = (props) => {
     const [plantrecc, setPlantrecc] = useState([]);
-    console.log(props.navigation.getParam('ht'));
-
     const recc = async () =>{
         try{
           const t= await AsyncStorage.getItem('token')
@@ -23,20 +22,14 @@ const ReccScreen = (props) => {
               'Authorization': AuthStr
           }
           };
-          var bodyFormData = new FormData();
-        //   console.log(ht, spread, use, location.coords.latitude, location.coords.longitude);
-          // bodyFormData.append('light', 'Full Sun');
-          bodyFormData.append('height', props.navigation.getParam('ht')); 
-          bodyFormData.append('spread', props.navigation.getParam('spread')); 
-          bodyFormData.append('usee', props.navigation.getParam('usee')); 
-          bodyFormData.append('light', props.navigation.getParam('sunlight')); 
-          bodyFormData.append('lat', props.navigation.getParam('lat')); 
-          bodyFormData.append('long', props.navigation.getParam('long')); 
-  
-          const response = await axios.post(host+`/recommendation`,bodyFormData,options); 
-          console.log(response.data.recommendation);
-          setPlantrecc(response.data.recommendation);
-  
+
+          const response = await axios.get(host+`/new_recommendation`,options); 
+          console.log("OPPP-------------",response.data.recommendation);
+          const df_list = response.data.recommendation;
+          Object.keys(df_list).map((key, index)=>{
+              console.log("keyyyyy",key,df_list[key]);
+          });
+          setPlantrecc(df_list);
         }
         catch(e){
           console.log(e);
@@ -48,7 +41,8 @@ const ReccScreen = (props) => {
       },[])
 
       const [loaded] = useFonts({
-        Cardo :require('../../assets/fonts/Cardo-Regular.ttf')
+        Cardo :require('../../assets/fonts/Cardo-Regular.ttf'),
+        AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
       });
     
       if (!loaded) {
@@ -63,13 +57,25 @@ const ReccScreen = (props) => {
                 horizontal={false}
                 showsVerticalScrollIndicator
                 data={plantrecc}
-                keyExtractor={plant=>plant.id}
+                keyExtractor={plant=>plant.pid}
                 renderItem={({item})=>{
-                    return <View>
-                       <TouchableOpacity onPress={()=>{props.navigation.navigate({routeName:'plantRecc',params:{id:item.id}})}}>
-                        <ReccCard plant={item}/>
-                        </TouchableOpacity>
-                        
+
+                    return <View style={{flex: 1}}>
+                        <Text style={styles.heading}>{item.plantName}</Text>
+                        {/* {console.log(">>>",item.recc)} */}
+                        <FlatList
+                        horizontal={false}
+                        showsVerticalScrollIndicator
+                        data={item.recc}
+                        keyExtractor={plant2=>plant2.id}
+                        renderItem={({item: item2})=>{
+                            return <View>
+                                <TouchableOpacity onPress={()=>{props.navigation.navigate({routeName:'plantRecc',params:{id:item2.id-1}})}}>
+                                <ReccCard plant={item2}/>
+                                </TouchableOpacity>
+                                </View>
+                        }}
+                        />
                         </View>
                 }}
                 />
@@ -87,7 +93,7 @@ const styles = StyleSheet.create({
     marginLeft:"5%",
     marginRight:"5%",
     marginTop:"5%",
-    height:957
+    height:957,
     // marginBottom:"5%",
   },
   greetingText:{
@@ -107,10 +113,17 @@ const styles = StyleSheet.create({
 },
 plantView:{
     flexDirection:"column",
-    height: "80%",
-    
+    height: "78%",
+},
+heading:{
+  fontWeight:"bold",
+  fontSize:20,
+  fontFamily: "AlatsiRegular",
+  // backgroundColor: "pink",
+  marginBottom: 8,
+  marginTop:7,
 }
 });
 
-export default ReccScreen;
+export default ReccsScreenTwo;
 

@@ -20,6 +20,7 @@ const PlantReccScreen = (props) => {
               'x-access-token':await AsyncStorage.getItem('token')
             }
           };
+        console.log(typeof props.navigation.getParam('id'))
         const response  = await axios.post(host+`/excel_row/`+props.navigation.getParam('id'),config);
         setPlant1(response.data.plant);
         console.log("----",response.data, typeof response.data);
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
         padding:"3%",
       },
   nameText:{
-    fontSize:28,
+    fontSize:27,
     // fontWeight: "bold",
     fontFamily: 'AlatsiRegular',
 },
@@ -95,11 +96,11 @@ const styles = StyleSheet.create({
     borderRadius:150,
     // overflow:"hidden",
     borderWidth:2,
-    marginTop:"5%",
+    marginTop:"2.5%",
 },
 upperView:{
   alignItems: "center",
-  paddingTop: "10%",
+  // marginTop: "1%",
 },
 viewStyle:{
   margin:"5%",
