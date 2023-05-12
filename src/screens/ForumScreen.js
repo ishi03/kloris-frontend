@@ -34,9 +34,8 @@ const ForumScreen = (props) => {
 
     return <View>
         <View style={styles.title}>
-        <Text style={styles.text}>Discussion Board</Text>
+        <Text style={styles.headingText}>Discussion Board</Text>
         <TouchableOpacity onPress={()=>{props.navigation.navigate('AddPost')}}>
-          {/* <Image source={require("../../assets/add.png")} style={styles.image}/> */}
           <Icon name="pen" size={21} style={styles.image}/>
         </TouchableOpacity>
         </View>
@@ -77,6 +76,20 @@ const styles = StyleSheet.create({
     color:"green"
     // borderRadius:150,
   },
+  headingText:{
+    fontSize:22,
+    // fontWeight: "bold",
+    fontFamily: "Cardo",
+    // alignSelf: 'flex-start',
+    color: "white",
+    width: "60%",
+    borderRadius: 15,
+    height: 35,
+    justifyContent: "center",
+    marginTop: 13,
+    paddingLeft:15,
+    backgroundColor: "#388000",
+},
 });
 
 export default ForumScreen;

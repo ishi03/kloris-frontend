@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import host from '../HostInfo';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from '../components/DatePicker';
-
+import Search from '../components/Search';
 
 // import Midnight from 'react-native-midnight'
 // create add custom task space; add date and username
@@ -98,7 +98,8 @@ const TaskScreen = (props) => {
     return (
       <View style={{backgroundColor: 'white'}}>
         <View style={styles.viewStyle}>
-        <Text style={styles.greetingText}>Welcome back!</Text>
+        <Search navigation={props.navigation}/>
+        {/* <Text style={styles.greetingText}>Welcome back!</Text> */}
         <View>
         <TouchableOpacity onPress={()=>{props.navigation.navigate('garden')}}>
         <Text style={styles.headingText}>My Garden</Text>
@@ -117,6 +118,7 @@ const TaskScreen = (props) => {
                 }}
             />
              </View>
+
         </View>
 
 

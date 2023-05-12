@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 nameText:{
   fontSize:28,
   fontWeight: "bold",
-  fontFamily: 'AlatsiRegular'
+  fontFamily: 'AlatsiRegular',
 },
   headingText:{
     fontSize:18,
@@ -95,7 +95,7 @@ nameText:{
 },
 upperView:{
 alignItems: "center",
-paddingTop: "10%",
+// paddingTop: "10%",
 },
 viewStyle:{
 margin:"5%",

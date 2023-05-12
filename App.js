@@ -7,8 +7,10 @@ import CounterScreen from "./src/screens/CounterScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import TaskScreen from "./src/screens/TaskScreen";
 import PlantScreen from "./src/screens/PlantScreen";
+import SearchPlant from './src/screens/SearchPlant';
 import GardenScreen from "./src/screens/GardenScreen";
 import Login from "./src/screens/Login";
+import Register from './src/screens/Register';
 import ForumScreen from "./src/screens/ForumScreen";
 import QuestionScreen from "./src/screens/QuestionScreen";
 import CamScreen from './src/screens/CamScreen';
@@ -22,6 +24,7 @@ import ReccScreen from './src/screens/ReccsScreen';
 import ReccsScreenTwo from './src/screens/ReccsScreenTwo';
 import PlantReccScreen from './src/screens/PlantReccScreen';
 import Search from './src/components/Search';
+import AddPlant from './src/screens/AddPlant';
 import Icon from 'react-native-vector-icons/Octicons';
 import { TouchableOpacity, Text } from 'react-native';
 
@@ -49,16 +52,16 @@ const navigator = createSwitchNavigator(
   {
     loginFlow:createStackNavigator({
       login:Login,
-      // signup 
+      register: Register, 
     }),
     mainFlow:createMaterialBottomTabNavigator({
       Home: {
-        screen: Search, //CamScreen, 
+        screen: CamScreen, 
         navigationOptions: {
-        tabBarLabel: "Homee", // lablel of the tab
+        tabBarLabel: "Detect", // lablel of the tab
         tabBarIcon: ({tintColor}) => { // Setting icon of the tab
           return (
-          <Icon name="rocket" size={21} color = {tintColor}/>
+          <Icon name="codescan-checkmark" size={21} color = {tintColor}/>
           );
         },
         }},
@@ -68,6 +71,8 @@ const navigator = createSwitchNavigator(
           Task: TaskScreen,
           Plantprofile: PlantScreen,
           garden: GardenScreen,
+          addPlant: AddPlant,
+          searchPlant: SearchPlant,
         }),
           navigationOptions:{
             // headerRight: ()=>(

@@ -1,5 +1,4 @@
 import { StatusBar } from "expo-status-bar";
-import { useFonts } from 'expo-font';
 import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -14,12 +13,14 @@ import {
 import axios from "axios";
 import { Context as AuthContext } from "../context/AuthContext";
 
-const Login = ({navigation}) => {
+const Register = ({navigation}) => {
 
-  const {state, signin} = useContext(AuthContext);
+  const {state, signup} = useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+
   
   // const onSubmit = async () => {
   //   try {
@@ -63,16 +64,69 @@ const Login = ({navigation}) => {
 
   // };
   // console.log(state);
-  const [loaded] = useFonts({
-    AlatsiRegular: require('../../assets/fonts/Alatsi-Regular.ttf'),
-    PoppinsMedium :require('../../assets/fonts/Poppins-ExtraLight.ttf')
-  });
 
-  if (!loaded) {
-    return null;
-  };
-  
-  const styles = StyleSheet.create({
+  return (
+    <View style={styles.container}>
+      {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
+      <ImageBackground source={require("../../assets/bg1.png")} resizeMode="cover" style={styles.image}>
+      {/* <StatusBar style="auto" /> */}
+      <View style={styles.content}>
+      <Text style={styles.heading}>Register</Text>
+      <TouchableOpacity onPress={()=>navigation.navigate('login')}>
+      <Text style={styles.tinytext}>Already Registered? Log In</Text>
+      </TouchableOpacity>
+      {/* <View style={styles.fields}> */}
+        {/* <View style={styles.inputView}>
+            <TextInput
+            style={styles.TextInput}
+            placeholder="Name"
+            placeholderTextColor="#003f5c"
+            onChangeText={(name) => setName(name)}
+            />
+        </View> */}
+
+        <View style={styles.inputView}>
+            <TextInput
+            style={styles.TextInput}
+            placeholder="Name"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(name) => setName(name)}
+            />
+        </View>
+    
+        <View style={styles.inputView}>
+            <TextInput
+            style={styles.TextInput}
+            placeholder="Password"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(password) => setPassword(password)}
+            />
+        </View>
+
+        
+        <View style={styles.inputView}>
+            <TextInput
+            style={styles.TextInput}
+            placeholder="Confirm Password"
+            placeholderTextColor="#003f5c"
+            onChangeText={(password2) => setPassword2(password2)}
+            />
+        </View>
+        
+        {state.errorMessage?<Text style={styles.errorMessage}>{state.errorMessage}</Text>:null}
+
+        <TouchableOpacity onPress={()=>signup({name, password, password2})} style={styles.loginBtn}>
+            <Text style={styles.loginText}>REGISTER</Text>
+        </TouchableOpacity>
+        </View>
+        </ImageBackground>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: "#fff",
@@ -88,15 +142,14 @@ const Login = ({navigation}) => {
     },
     heading:{
         fontSize:30,
-        // fontWeight: "bold",
-        fontFamily:"AlatsiRegular",
+        fontWeight: "bold",
+        fontFamily:"Roboto",
         color:"#388000"
     },
     tinytext:{
         fontSize:12,
         marginBottom:"5%",
         marginTop:"2%",
-        fontFamily:"AlatsiRegular"
     },
     inputView: {
     //   backgroundColor: "#FFC0CB",
@@ -106,26 +159,22 @@ const Login = ({navigation}) => {
       height: 45,
       marginBottom: 20,
       alignItems: "flex-start",
-
     },
    
     TextInput: {
       height: 50,
-      width: 250,
       flex: 1,
       padding: 10,
       marginLeft: 20,
-      fontFamily: "PoppinsMedium",
     },
    
     forgot_button: {
       height: 30,
       marginBottom: 30,
-      fontFamily: "PoppinsMedium",
     },
    
     loginBtn: {
-      width: "50%",
+      width: "80%",
       borderRadius: 25,
       height: 50,
       alignItems: "center",
@@ -133,76 +182,9 @@ const Login = ({navigation}) => {
       marginTop: 40,
       backgroundColor: "#388000",
     },
-
-    loginText:{
-      fontFamily: "PoppinsMedium",
-      color:"white",
-      fontSize:15,
-      // fontWeight: "bold"
-    },
-
     errorMessage:{
       color:"red"
     }
   });
-  return (
-    <View style={styles.container}>
-      {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
-      <ImageBackground source={require("../../assets/bg1.png")} resizeMode="cover" style={styles.image}>
-      {/* <StatusBar style="auto" /> */}
-      <View style={styles.content}>
-      <Text style={styles.heading}>Login</Text>
-      {/* <Text style={styles.heading}>Account</Text> */}
-      <TouchableOpacity onPress={()=>navigation.navigate('register')}>
-      <Text style={styles.tinytext}>New Here?  Sign Up</Text>
-      </TouchableOpacity>
 
-      {/* <View style={styles.fields}> */}
-        {/* <View style={styles.inputView}>
-            <TextInput
-            style={styles.TextInput}
-            placeholder="Name"
-            placeholderTextColor="#003f5c"
-            onChangeText={(name) => setName(name)}
-            />
-        </View> */}
-
-        <View style={styles.inputView}>
-            <TextInput
-            style={styles.TextInput}
-            placeholder="Username"
-            placeholderTextColor="#003f5c"
-            onChangeText={(email) => setEmail(email)}
-            />
-        </View>
-    
-        <View style={styles.inputView}>
-            <TextInput
-            style={styles.TextInput}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(password) => setPassword(password)}
-            />
-        </View>
-    
-        <TouchableOpacity>
-            <Text style={styles.forgot_button}>Forgot Password?</Text>
-        </TouchableOpacity>
-        
-        {state.errorMessage?<Text style={styles.errorMessage}>{state.errorMessage}</Text>:null}
-
-        <TouchableOpacity onPress={()=>signin({email, password})} style={styles.loginBtn}>
-            <Text style={styles.loginText}>LOG  IN</Text>
-        </TouchableOpacity>
-        </View>
-        </ImageBackground>
-    </View>
-  );
-};
-
-
-
-export default Login;
-
- 
+export default Register;

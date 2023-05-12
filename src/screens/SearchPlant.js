@@ -6,13 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import host from '../HostInfo';
 
-const plant={
-    "id":4,
-    "name":"Aloe Vera",
-    "imgSource":require("../../assets/aloevera.jpg"),
-    "task":"Watering Time"
-}
-const PlantReccScreen = (props) => {
+
+const SearchPlant = (props) => {
     const [plant1, setPlant1]=useState({});
     const getPlant1=async()=>{
         const config = {
@@ -106,4 +101,4 @@ viewStyle:{
 }
 });
 
-export default PlantReccScreen;
+export default SearchPlant;

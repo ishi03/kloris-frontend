@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, View, FlatList,TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, View, FlatList,TouchableOpacity, Button } from 'react-native';
 import GardenCard from '../components/GardenCard';
 import plants from '../../dummyData/plants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import host from '../HostInfo';
 import { useFonts } from 'expo-font';
+import Modal from "react-native-modal";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import AddPlant from './AddPlant';
 
 const GardenScreen = (props) => {
 
   const [plants1,setPlants1]=useState([]);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const getPlants= async()=>{
     const t= await AsyncStorage.getItem('token')
@@ -40,7 +48,23 @@ const GardenScreen = (props) => {
   };
 
     return <View style={styles.viewStyle}>
-            <Text style={styles.greetingText}>My Garden</Text>
+
+            <View style={styles.title}>
+              <Text style={styles.greetingText}>My Garden</Text>
+              <TouchableOpacity onPress={()=>{toggleModal()}}>
+                <Icon name="add-circle-outline" size={32} style={styles.image}/>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1 }}>
+      {/* <Button title="Show modal" onPress={toggleModal} /> */}
+
+      <Modal isVisible={isModalVisible}>
+        <View style={{ flex: 1 }}>
+          <AddPlant toggleModal={toggleModal}/>
+          {/* <Button title="Hide modal" onPress={toggleModal} /> */}
+        </View>
+      </Modal>
+    </View>
          <View>
                 <View style={styles.plantView}>
                 <FlatList
@@ -90,9 +114,23 @@ const styles = StyleSheet.create({
 },
 plantView:{
     flexDirection:"column",
-    height: "80%",
+    height: "90%",
     // backgroundColor:"green"
-}
+},
+title:{
+  flexDirection:"row",
+  justifyContent: "space-between",
+  // marginLeft:20
+},
+image: {
+  // width:30,
+  // height:30,
+  marginRight:"2%",
+  marginLeft:"5%",
+  marginTop:"35%",
+  color:"green"
+  // borderRadius:150,
+},
 });
 
 export default GardenScreen;
